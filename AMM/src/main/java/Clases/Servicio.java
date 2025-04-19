@@ -1,38 +1,100 @@
 package Clases;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.sql.Timestamp;
-
 /**
  *
  * @author nyath
  */
+import jakarta.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+
+@Entity
+@Table(name= "servicio")
 public class Servicio {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_servicio")
     private int id_servicio;
-    private int id_cliente;
-    private int id_equipo;
-    private int id_tipo_limp;
-    private LocalDate fecha;
-    private LocalTime hora;
-    private LocalTime tiempo_estimado;
-    private LocalTime tiempo_finalizacion;
+    
+    @ManyToOne
+    @JoinColumn(name = "cliente") //clave foreana
+    private Cliente cliente;
+    
+    @ManyToOne
+    @JoinColumn(name = "equipo") //clave foreana
+    private Equipo equipo;
+    
+    @ManyToOne
+    @JoinColumn(name = "tipoLimpieza") //clave foreana
+    private Tipo_limpieza tipoLimpieza;
+    
+    @Column(name = "fecha")
+    private Date fecha;
+    
+    @Column(name = "hora")
+    private Time hora;
+    
+    @Column(name = "tiempo_estimado")
+    private Time tiempo_estimado;
+    
+    @Column(name = "tiempo_finalizacion")
+    private Time tiempo_finalizacion;
+    
+    @Column(name = "precio")
     private int precio;
+    
+    @Column(name = "observacion")
     private String observacion;
+    
+    @Column(name = "user_crea")
     private String user_crea;
+    
+    @Column(name = "creado_el")
     private Timestamp creado_el;
+    
+    @Column(name = "user_modifica")
     private String user_modifica;
+    
+    @Column(name = "modificado_el")
     private Timestamp modificado_el;
     
     //Constructores
     public Servicio(){        
     }
 
-    public Servicio(int id_servicio, int id_cliente, int id_equipo, int id_tipo_limp, LocalDate fecha, LocalTime hora, LocalTime tiempo_estimado, LocalTime tiempo_finalizacion, int precio, String observacion, String user_crea, Timestamp creado_el, String user_modifica, Timestamp modificado_el) {
+    public Servicio(Cliente cliente, Equipo equipo, Tipo_limpieza tipoLimpieza, Date fecha, Time hora, Time tiempo_estimado, Time tiempo_finalizacion, int precio, String observacion, String user_crea) {
+        this.cliente = cliente;
+        this.equipo = equipo;
+        this.tipoLimpieza = tipoLimpieza;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.tiempo_estimado = tiempo_estimado;
+        this.tiempo_finalizacion = tiempo_finalizacion;
+        this.precio = precio;
+        this.observacion = observacion;
+        this.user_crea = user_crea;
+    }
+
+    public Servicio(Cliente cliente, Equipo equipo, Tipo_limpieza tipoLimpieza, Date fecha, Time hora, Time tiempo_estimado, Time tiempo_finalizacion, int precio, String observacion, String user_modifica, Timestamp modificado_el) {
+        this.cliente = cliente;
+        this.equipo = equipo;
+        this.tipoLimpieza = tipoLimpieza;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.tiempo_estimado = tiempo_estimado;
+        this.tiempo_finalizacion = tiempo_finalizacion;
+        this.precio = precio;
+        this.observacion = observacion;
+        this.user_modifica = user_modifica;
+        this.modificado_el = modificado_el;
+    }
+
+    public Servicio(int id_servicio, Cliente cliente, Equipo equipo, Tipo_limpieza tipoLimpieza, Date fecha, Time hora, Time tiempo_estimado, Time tiempo_finalizacion, int precio, String observacion, String user_crea, Timestamp creado_el, String user_modifica, Timestamp modificado_el) {
         this.id_servicio = id_servicio;
-        this.id_cliente = id_cliente;
-        this.id_equipo = id_equipo;
-        this.id_tipo_limp = id_tipo_limp;
+        this.cliente = cliente;
+        this.equipo = equipo;
+        this.tipoLimpieza = tipoLimpieza;
         this.fecha = fecha;
         this.hora = hora;
         this.tiempo_estimado = tiempo_estimado;
@@ -45,34 +107,7 @@ public class Servicio {
         this.modificado_el = modificado_el;
     }
 
-    public Servicio(int id_cliente, int id_equipo, int id_tipo_limp, LocalDate fecha, LocalTime hora, LocalTime tiempo_estimado, LocalTime tiempo_finalizacion, int precio, String observacion, String user_crea) {
-        this.id_cliente = id_cliente;
-        this.id_equipo = id_equipo;
-        this.id_tipo_limp = id_tipo_limp;
-        this.fecha = fecha;
-        this.hora = hora;
-        this.tiempo_estimado = tiempo_estimado;
-        this.tiempo_finalizacion = tiempo_finalizacion;
-        this.precio = precio;
-        this.observacion = observacion;
-        this.user_crea = user_crea;
-    }
-
-    public Servicio(int id_cliente, int id_equipo, int id_tipo_limp, LocalDate fecha, LocalTime hora, LocalTime tiempo_estimado, LocalTime tiempo_finalizacion, int precio, String observacion, String user_modifica, Timestamp modificado_el) {
-        this.id_cliente = id_cliente;
-        this.id_equipo = id_equipo;
-        this.id_tipo_limp = id_tipo_limp;
-        this.fecha = fecha;
-        this.hora = hora;
-        this.tiempo_estimado = tiempo_estimado;
-        this.tiempo_finalizacion = tiempo_finalizacion;
-        this.precio = precio;
-        this.observacion = observacion;
-        this.user_modifica = user_modifica;
-        this.modificado_el = modificado_el;
-    }
-
-    //getters y setters
+    // -- Getteres y Setters --
 
     public int getId_servicio() {
         return id_servicio;
@@ -82,59 +117,59 @@ public class Servicio {
         this.id_servicio = id_servicio;
     }
 
-    public int getId_cliente() {
-        return id_cliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public int getId_equipo() {
-        return id_equipo;
+    public Equipo getEquipo() {
+        return equipo;
     }
 
-    public void setId_equipo(int id_equipo) {
-        this.id_equipo = id_equipo;
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
     }
 
-    public int getId_tipo_limp() {
-        return id_tipo_limp;
+    public Tipo_limpieza getTipoLimpieza() {
+        return tipoLimpieza;
     }
 
-    public void setId_tipo_limp(int id_tipo_limp) {
-        this.id_tipo_limp = id_tipo_limp;
+    public void setTipoLimpieza(Tipo_limpieza tipoLimpieza) {
+        this.tipoLimpieza = tipoLimpieza;
     }
 
-    public LocalDate getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
-    public LocalTime getHora() {
+    public Time getHora() {
         return hora;
     }
 
-    public void setHora(LocalTime hora) {
+    public void setHora(Time hora) {
         this.hora = hora;
     }
 
-    public LocalTime getTiempo_estimado() {
+    public Time getTiempo_estimado() {
         return tiempo_estimado;
     }
 
-    public void setTiempo_estimado(LocalTime tiempo_estimado) {
+    public void setTiempo_estimado(Time tiempo_estimado) {
         this.tiempo_estimado = tiempo_estimado;
     }
 
-    public LocalTime getTiempo_finalizacion() {
+    public Time getTiempo_finalizacion() {
         return tiempo_finalizacion;
     }
 
-    public void setTiempo_finalizacion(LocalTime tiempo_finalizacion) {
+    public void setTiempo_finalizacion(Time tiempo_finalizacion) {
         this.tiempo_finalizacion = tiempo_finalizacion;
     }
 
