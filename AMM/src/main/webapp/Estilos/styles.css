@@ -1,0 +1,355 @@
+/* Estilos generales del body */
+body {
+    font-family: Arial, sans-serif; /* Fuente principal */
+    background-color: #5271FF; /* Color de fondo */
+    color: black; /* Color del texto */
+    padding: 20px;
+    text-align: center;
+    min-height: 95vh; /* Altura mínima del body: 95% del alto de la ventana */
+    display: flex; /* Usa flexbox */
+    flex-direction: column; /* Dirección en columna */
+}
+
+/* El <main> ocupa todo el espacio posible dentro del flex */
+main {
+    flex: 1;
+}
+
+/* Estilo para encabezados de preguntas, alineados a la derecha */
+.header_question {
+    text-align: right;
+    margin: -20px;
+}
+
+/* Contenedor del logo de login */
+#div_login_logo {
+    margin: 15px;
+}
+
+/* Botones generales */
+button {
+    margin: 5px;
+    align-self: center;
+    width: fit-content;
+    min-width: 40px;
+    width: 120px;
+    height: 35px;
+    border: 1px solid black;
+    background-color: #001A90; /* Azul oscuro */
+    color: white;
+    padding: 1px;
+    border-radius: 5px;
+}
+
+/* Efecto hover para botones */
+button:hover {
+    background-color: #A8B8FF; /* Azul claro */
+    color: black;
+    border: 1px solid white;
+}
+
+/* Contenedor del formulario de login */
+#login_form form {
+    width: 20%;
+    min-width: 300px;
+    min-height: 300px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    border: 5px solid rgba(255, 255, 255, 0.089); /* Borde semitransparente */
+    border-radius: 15px;
+    background-color: #80a1fd81; /* Azul claro con opacidad */
+}
+
+/* Estilo para los íconos dentro del formulario */
+#login_form form i {
+    margin-top: 15px;
+    margin-bottom: 6px;
+    color: black;
+}
+
+/* Inputs del formulario de login */
+#login_form form input {
+    width: 80%;
+    max-width: 250px;
+    height: 16px;
+    margin-left: 5%;
+    margin-right: 5%;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: #ffffff6b; /* Blanco con transparencia */
+}
+
+/* Estilo para el placeholder dentro de inputs */
+input::placeholder {
+    color: #646464;
+}
+
+/* Efecto al enfocar un input */
+input:focus {
+    outline: none;
+    box-shadow: 0 0 2px 2px #001a90;
+}
+
+/* Inputs y selects deshabilitados */
+input:disabled, select:disabled {
+    background-color: #464646;
+    color: #cacaca;
+    border: 0px;
+}
+
+/* Botón dentro del login */
+#login_form button {
+    margin-top: 15%;
+}
+
+/* Inputs y botones centrados dentro del login */
+#login_form form input, #login_form form button {
+    align-self: center;
+    padding: 5px;
+    min-width: 100px;
+}
+
+/* Logo del login */
+#login_logo {
+    border: 4px solid black;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 25%;
+}
+
+/* Pie de página del login */
+#footer_login {
+    margin-top: 5px;
+}
+
+/* Estilo para enlaces con íconos */
+.icon_link {
+    color: black;
+    text-decoration: none;
+    margin: 25px;
+}
+
+/* Encabezado general de páginas */
+.header_pages {
+    background-color: #A8B8FF;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    margin-top: -30px;
+    margin-left: -30px;
+    margin-right: -30px;
+    border-radius: 0 0 15px 15px;
+}
+
+.iconUserName {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    width: fit-content;
+    gap: 10px;
+}
+
+.iconUserName a {
+    margin: auto;
+    margin-left: -20px;
+}
+
+.logo_list {
+    display: flex;
+    flex-direction: row;
+    padding: auto;
+}
+
+/* Logo de las páginas */
+.logo_pages {
+    margin: 16px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.name_user_show {
+    color: white;
+    height: fit-content;
+    width: fit-content;
+}
+
+/* Contenedor de la lista de páginas */
+.list_pages {
+    width: 90%;
+}
+
+/* Lista de páginas como navegación */
+.list_pages ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 40px auto;
+}
+
+/* Elementos de la lista */
+.list_pages li {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    padding: 12px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: #001a9075; /* Azul oscuro semitransparente */
+}
+
+/* Hover en la lista de páginas */
+.list_pages li:hover {
+    background-color: #5271FF;
+    box-shadow: 0 0 2px 2px #001a90;
+}
+
+/* Hover en enlaces de la lista */
+.list_pages a:hover {
+    color: black;
+}
+
+/* Enlaces de la lista */
+.list_pages a {
+    text-decoration: none;
+    color: white;
+}
+
+/* Ícono de pregunta (ayuda) */
+.question_icon {
+    margin: 3px 0 2px 32px;
+}
+
+/* Sección de inicio principal */
+#inicio_primero {
+    margin: 10px;
+    width: 100%;
+    min-height: 75vh;
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+/* Contenedor de datos iniciales */
+.start_data {
+    margin: 40px auto;
+}
+
+/* Elementos mínimos dentro de start_data */
+.start_data div, .title_star {
+    min-width: 100px;
+}
+
+/* Contenedor de columnas iniciales */
+.colum_star {
+    flex-direction: row;
+    padding: 5px;
+    background-color: #001a9049;
+    color: white;
+    min-width: 200px;
+    height: 85%;
+    border-radius: 10px;
+    box-shadow: 6px 6px 10px 5px #001A90;
+}
+
+/* Cada sección interna de colum_star */
+.colum_star div {
+    padding: 10px;
+    margin: 5px;
+    width: auto;
+    margin-bottom: 10px;
+    background-color: rgba(0, 0, 0, 0.377);
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+/* Títulos */
+h1 {
+    color: white;
+    font-weight: bold;
+}
+
+h2 {
+    margin: 2px;
+}
+
+/* Página actual resaltada */
+.actual_page {
+    box-shadow: 1px 5px 2px 2px #000000;
+}
+
+/* Contenedor de secciones o páginas */
+.pages_div {
+    min-height: 80vh;
+    margin-top: 5px;
+    height: auto;
+    width: auto;
+    align-self: center;
+    align-items: center;
+}
+
+/* Formularios dentro de las páginas */
+.form_pages {
+    margin: 5px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    /* min-height: 70vh; */
+    width: fit-content;
+    border: 2px solid black;
+    border-radius: 15px;
+    background-color: #ffffff9c; /* Blanco translúcido */
+}
+
+/* Inputs del formulario */
+.form_pages input {
+    width: 100%;
+    padding: 5px;
+}
+
+/* Campo de observaciones más alto */
+#observaciones {
+    height: 150px;
+}
+
+/* Etiquetas de formularios */
+.form_pages label {
+    font-weight: bold;
+}
+
+/* Display tipo grid para formularios */
+.form_display {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 35% 65%;
+    gap: 10px;
+    width: 80%;
+    height: fit-content;
+}
+
+/* Alineación de etiquetas en grid */
+.form_display label {
+    text-align: right;
+    padding-right: 10px;
+    align-self: center;
+}
+
+/* Campo especial para identificación */
+#div_identificacion {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 25% 75%;
+}
+
+table {
+    background: white;
+}
+
+#form_tipo_usuario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
