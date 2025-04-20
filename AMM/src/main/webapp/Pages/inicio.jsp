@@ -29,7 +29,7 @@
                 <i class="fa-solid fa-circle-question fa-2x question_icon" style="color: black;"></i>
             </a>
             <p class ="name_user_show">
-                <%= user != null ? user.getUser() : "Invitado" %>
+                <%= user != null ? user.getNombre_usuario(): "Invitado" %>
             </p>            
         </div>
         <div class="logo_list">

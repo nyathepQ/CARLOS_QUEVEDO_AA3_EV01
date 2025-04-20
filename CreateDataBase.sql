@@ -104,21 +104,6 @@ CREATE TABLE usuario (
   CONSTRAINT usuario_ibfk_2 FOREIGN KEY (id_tipoUsua) REFERENCES tipo_usuario (id_tipoUsua)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` TRIGGER `before_insert_usuario`
-BEFORE INSERT ON `usuario`
-FOR EACH ROW
-BEGIN
-    SET NEW.id_usuario = CONCAT(NEW.id_tipoDocu, NEW.documento_usuario);
-END;;
-DELIMITER ;
-
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` TRIGGER `usuario_BEFORE_UPDATE` BEFORE UPDATE ON `usuario` FOR EACH ROW BEGIN
-	SET NEW.id_usuario = CONCAT(NEW.id_tipoDocu, NEW.documento_usuario);
-END
-DELIMITER ;
-
 CREATE TABLE usuarios_equipo (
   id_usuarios_equipo int NOT NULL AUTO_INCREMENT,
   id_equipo int NOT NULL,
@@ -157,5 +142,5 @@ CREATE TABLE servicio (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT IGNORE INTO usuario (
-id_tipoUsua, nombre_usuario, contrasena_usuario, id_tipoDocu, documento_usuario, nombres, apellidos, telefono_usuario, correo_usuario
-) VALUES (3, 'Vacio', '0', 1, '0', 'Seleccionar', 'Usuario', '0', '0@gmail.com'), (1, 'Admin', '1234', 1, '1026571230', 'Carlos', 'Quevedo', '3212300716', 'nyathepq@gmail.com');
+id_usuario, id_tipoUsua, nombre_usuario, contrasena_usuario, id_tipoDocu, documento_usuario, nombres, apellidos, telefono_usuario, correo_usuario
+) VALUES ('NA' ,3 , 'Ejemplo', '0000', 1, '0', 'Ejemplo', 'Ejemplo', '0', '0@gmail.com'), ('11026571230', 1, 'Admin', '1234', 1, '1026571230', 'Carlos', 'Quevedo', '3212300716', 'nyathepq@gmail.com');

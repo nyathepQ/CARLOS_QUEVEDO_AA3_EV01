@@ -1,5 +1,6 @@
 package controladores;
 
+import Clases.Cliente;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -8,10 +9,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import Servicios.ServicioManager;
 import Clases.Servicio;
 import Clases.Usuario;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import Servicios.ClienteManager;
+import Servicios.EquipoManager;
+import Servicios.TiLiManager;
+import java.sql.Date;
+import java.sql.Time;
 import Utils.TimeUtils;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalTime;
+import java.util.List;
 
 /**
  *
@@ -25,119 +31,117 @@ public class ServicioServlet extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         
-        if(session != null) {
+        if(session == null) { // Si no existe sesión regresar al login
+            response.sendRedirect("../index.jsp?error=Sesion+expirada");
+            return;        
+        }
         
-            String accion = request.getParameter("accion");
-            ServicioManager manager = new ServicioManager();
+        String accion = request.getParameter("accion"); //Obtener botón activado
+        ServicioManager manager = new ServicioManager();
 
-            if("buscar".equals(accion)){
-                String id_str = request.getParameter("id_servicio");
+        if("buscar".equals(accion)){ //Botón buscar
+            String id_str = request.getParameter("id_servicio");
+
+            try {
+                if(id_str == null || "NA".equals(id_str)){
+                    request.setAttribute("error", "Debe seleccionar un código para buscar");
+                } else { //si existe el id o es diferente a NA
+                    int id = Integer.parseInt(id_str);
+                    Servicio servicio = manager.buscarServicio(id);
+                    
+                    request.setAttribute("mensaje", "Servicio encontrado: " + id);
+                    request.setAttribute("servicio", servicio);
+                }
+            } catch (NumberFormatException e){
+                request.setAttribute("error", "Código invalido o inexistente");
+            }
+
+            request.getRequestDispatcher("Pages/agenda.jsp").forward(request, response);
+        }
+
+        if("crear/modificar".equals(accion)){ //Botón crear/modificar
+            String id_str = request.getParameter("id_servicio");
+            TimeUtils timeU = new TimeUtils();
 
                 try {
-                    int id = Integer.parseInt(id_str);
+                    Usuario user = (Usuario) session.getAttribute("usuario");
+                    ClienteManager clManager = new ClienteManager();
+                    EquipoManager eqManager = new EquipoManager();
+                    TiLiManager tlManager = new TiLiManager();
+                    boolean idExist = id_str != null && !"NA".equals(id_str);
+                    int id = idExist ? Integer.parseInt(id_str) : 0;
 
-                    Servicio servicio = manager.buscarServicio(id);
+                    Servicio servicio = new Servicio();
+                    
+                    servicio.setCliente(clManager.buscarCliente(Integer.parseInt(request.getParameter("id_cliente")))); //Settear cliente por id
+                    servicio.setEquipo(eqManager.buscarEquipo(Integer.parseInt(request.getParameter("id_equipo")))); //Settear equipo por id
+                    servicio.setTipoLimpieza(tlManager.buscarTipoLimpieza(Integer.parseInt(request.getParameter("id_tipoLimp")))); //Settear tipo limpieza por id
+                    servicio.setFecha(Date.valueOf(request.getParameter("fecha")));
+                    LocalTime hr = LocalTime.parse(request.getParameter("hora")); //Transformar a localTime
+                    servicio.setHora(Time.valueOf(hr));
+                    LocalTime hrEs = LocalTime.parse(request.getParameter("tiempo_estimado")); //Transformar a localTime
+                    servicio.setTiempo_estimado(Time.valueOf(hrEs));
+                    servicio.setTiempo_finalizacion(timeU.calcHoraFinalizacion(servicio.getHora(), servicio.getTiempo_estimado()));
+                    servicio.setPrecio(Integer.parseInt(request.getParameter("precio")));
+                    servicio.setObservacion(request.getParameter("observacion"));
+                    
+                    if(id == 0) { // Creación
+                        servicio.setUser_crea(user.getNombre_usuario());
+                        boolean creation = manager.crearServicio(servicio);
+                        if (!creation){
+                            request.setAttribute("error", "No se pudo crear el servicio");
+                        } else {
+                            request.setAttribute("mensaje", "Servicio creado exitosamente");
+                            request.setAttribute("servicio", null);
+                        }
+                    } else { // Modificación
+                        servicio.setId_servicio(id);
+                        servicio.setUser_modifica(user.getNombre_usuario());
+                        servicio.setModificado_el(timeU.getNowTime());
+                        boolean modificacion = manager.modificarServicio(servicio);
 
-                    if(servicio != null) {
-                        request.setAttribute("mensaje", "Servicio: " + id + " encontrado.");
-                        request.setAttribute("servicio", servicio);
-                    } else {
-                        request.setAttribute("error", "No se encontro el servicio");
+                        if (!modificacion){
+                            request.setAttribute("error", "No se pudo modificar el servicio");
+                        } else {
+                            request.setAttribute("mensaje", "Servicio modificado exitosamente.");
+                            request.setAttribute("servicio", servicio);
+                        }
                     }
-                } catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     request.setAttribute("error", "Código invalido o inexistente");
                 }
 
-                request.getRequestDispatcher("Pages/agenda.jsp").forward(request, response);
-            }
-
-            if("crear/modificar".equals(accion)){
-                String id_Str = request.getParameter("id_servicio");
-                TimeUtils timeU = new TimeUtils();
-
-                    try {
-                        Usuario user = (Usuario) session.getAttribute("usuario");
-                        boolean idExist = id_Str != null && !id_Str.isEmpty();
-                        int id = idExist ? Integer.parseInt(id_Str) : 0;
-                        
-                        Servicio servicio = new Servicio();
-
-                        servicio.setId_cliente(Integer.parseInt(request.getParameter("id_cliente")));
-                        servicio.setId_equipo(Integer.parseInt(request.getParameter("id_equipo")));
-                        servicio.setId_tipo_limp(Integer.parseInt(request.getParameter("id_tipoLimp")));
-                        servicio.setFecha(LocalDate.parse(request.getParameter("fecha")));
-                        servicio.setHora(LocalTime.parse(request.getParameter("hora")));
-                        servicio.setTiempo_estimado(LocalTime.parse(request.getParameter("tiempo_estimado")));
-                        servicio.setTiempo_finalizacion(timeU.calcHoraFinalizacion(servicio.getHora(), servicio.getTiempo_estimado()));
-                        servicio.setPrecio(Integer.parseInt(request.getParameter("precio")));
-                        String obs = request.getParameter("observacion");
-                        servicio.setObservacion(obs != null ? obs : "");
-                        
-                        if(id == 0) {
-                            servicio.setUser_crea(user.getUser());
-                            boolean creation = manager.insertServicio(servicio);
-                            if (creation){
-                                request.setAttribute("mensaje", "Servicio creado exitosamente.");
-                                request.setAttribute("servicio", null);
-                            } else {
-                                request.setAttribute("error", "No se pudo crear el servicio");
-                            }
-                        } else {
-                            servicio.setId_servicio(id);
-                            servicio.setUser_modifica(user.getUser());
-                            servicio.setModificado_el(timeU.getNowTime());
-                            boolean modificacion = manager.modificarServicio(servicio);
-                            
-                            if (modificacion){
-                                request.setAttribute("mensaje", "Servicio modificado exitosamente.");
-                                request.setAttribute("servicio", servicio);
-                            } else {
-                                request.setAttribute("error", "No se pudo modificar el servicio");
-                            }
-                        }
-                    } catch (NumberFormatException e) {
-                        request.setAttribute("error", "Código invalido o inexistente");
-                    }
-
-
-                request.getRequestDispatcher("Pages/agenda.jsp").forward(request, response);
-            }
-
-            if("mostrar".equals(accion)){
-                Servicio[] servicios = manager.getAllServicio();
-
-                request.setAttribute("servicios", servicios);
-                request.getRequestDispatcher("Pages/listadoServicios.jsp").forward(request, response);
-            }
-
-            if("eliminar".equals(accion)){
-                String idStr =  request.getParameter("id_servicio");
-                try {
-                    if (idStr != null && !idStr.isEmpty()) {
-                        int id = Integer.parseInt(idStr);
-
-                        boolean eliminado = manager.eliminarServicio(id);
-                        if (eliminado) {
-                            request.setAttribute("mensaje", "Servicio eliminado exitosamente.");
-                            request.setAttribute("servicio", null); // limpiar formulario
-                        } else {
-                            request.setAttribute("error", "No se pudo eliminar el servicio.");
-                        }
-                    } else {
-                        request.setAttribute("error", "Debe ingresar un código para eliminar.");
-                    }
-
-                } catch (NumberFormatException e) {
-                    request.setAttribute("error", "Código inválido.");
-                }
-
-                request.getRequestDispatcher("Pages/agenda.jsp").forward(request, response);
-            }        
-        } else {
-            request.setAttribute("error", "Sesión expirada");
-            response.sendRedirect("../index.jsp");
-            return;
+            request.getRequestDispatcher("Pages/agenda.jsp").forward(request, response);
         }
-    }
 
+        if("mostrar".equals(accion)){ // Botón mostrar
+            List<Servicio> servicios = manager.getAllServicio(); //obtener todos los servicios
+
+            request.setAttribute("servicios", servicios); // Enviar registros a pagina de lista
+            request.getRequestDispatcher("Pages/listadoServicios.jsp").forward(request, response);
+        }
+
+        if("eliminar".equals(accion)){ //Botón eliminar
+            String id_str =  request.getParameter("id_servicio");
+            try {
+                if (id_str == null || "NA".equals(id_str)) { // id de servicio no existe o es NA
+                    request.setAttribute("error", "Debe ingresar un código para eliminar.");
+                } else { // si la id es valida
+                    int id = Integer.parseInt(id_str);
+
+                    boolean eliminado = manager.eliminarServicio(id);
+                    if (!eliminado) {
+                        request.setAttribute("error", "No se pudo eliminar el servicio");
+                    } else {
+                        request.setAttribute("mensaje", "Servicio eliminado exitosamente");
+                        request.setAttribute("servicio", null); // limpiar formulario
+                    }
+                }
+            } catch (NumberFormatException e) {
+                request.setAttribute("error", "Código inválido o inexistente");
+            }
+
+            request.getRequestDispatcher("Pages/agenda.jsp").forward(request, response);
+        }        
+    }
 }

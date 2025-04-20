@@ -4,15 +4,17 @@
     Author     : nyath
 --%>
 
+<%@page import="Clases.Tipo_limpieza"%>
+<%@page import="Servicios.TiLiManager"%>
+<%@page import="Servicios.EquipoManager"%>
+<%@page import="Clases.Equipo"%>
+<%@page import="java.util.List"%>
+<%@page import="Servicios.ServicioManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Clases.Usuario"%>
 <%@page import="Clases.Servicio"%>
 <%@page import="Clases.Cliente"%>
-<%@page import="Clases.EquipoTrabajo"%>
-<%@page import="Clases.Varios"%>
 <%@page import="Servicios.ClienteManager"%>
-<%@page import="Servicios.EquipoTrabajoManager"%>
-<%@page import="Servicios.VariosManager"%>
 <%@page import="Utils.TimeUtils"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -27,27 +29,20 @@
     <%
         Usuario user = (Usuario) session.getAttribute("usuario"); //obtener datos de sesión
         Servicio serv = (Servicio) request.getAttribute("servicio");
-        if(user == null){ //si no hay sesión iniciada regresar al index
+        if(user == null && user.getTipoUsuario().getId_tipoUsua() != 0){ //si no hay sesión iniciada regresar al index
             response.sendRedirect("../index.jsp");
             return;
         }
+        //lista de todos los servicios para select
+        ServicioManager sManager = new ServicioManager();
+        List<Servicio> servicios_list = sManager.getAllServicio();
+        //Listas para select
         ClienteManager cl_manager = new ClienteManager();
-        EquipoTrabajoManager eq_manager = new EquipoTrabajoManager();
-        VariosManager tipos_manager = new VariosManager();
-        Cliente[] cl = cl_manager.getAllCliente();
-        EquipoTrabajo[] eq = eq_manager.getAllEquipo();
-        Varios[] ti_li = tipos_manager.getAllTipoVarios("tipo_limpieza", "id_tipoLimp");
-        
-        Cliente cl_serv = new Cliente();
-        EquipoTrabajo eq_serv = new EquipoTrabajo();
-        Varios limp_serv = new Varios();
-        
-        if(serv != null){
-            cl_serv = cl_manager.buscarCliente(serv.getId_cliente());
-            eq_serv = eq_manager.buscarEquipo(serv.getId_equipo());
-            limp_serv = tipos_manager.buscarTipoVarios("tipo_limpieza", "id_tipoLimp", serv.getId_tipo_limp());
-        }
-        
+        List<Cliente> cl = cl_manager.getAllCliente();
+        EquipoManager eqManager = new EquipoManager();
+        List<Equipo> eq = eqManager.getAllEquipo();
+        TiLiManager tlManager = new TiLiManager();
+        List<Tipo_limpieza> ti_li = tlManager.getAllTipoLimpieza();
     %>
     <header class="header_pages"> <!-- header con el logo y los enlaces a las demás paginas -->
         <div class="iconUserName">
@@ -55,7 +50,7 @@
                 <i class="fa-solid fa-circle-question fa-2x question_icon" style="color: black;"></i>
             </a>
             <p class ="name_user_show">
-                <%= user != null ? user.getUser() : "Invitado" %>
+                <%= user != null ? user.getNombre_usuario(): "Invitado" %>
             </p>            
         </div>
         <div class="logo_list">
@@ -82,16 +77,36 @@
                 <% } %>
                 <div class="form_display">
                     <label for="id_servicio">Código</label>
-                    <input type="text" name="id_servicio" id="id_servicio" value="<%= serv != null ? serv.getId_servicio() : "" %>">
+                    <select name="id_servicio" id="id_servicio">
+                        <option value="<%= serv != null ? serv.getId_servicio() : "NA"  %>"><%= serv != null ? serv.getId_servicio() : "== Nuevo registro ==" %></option>
+                        <%
+                            if(serv != null){
+                        %>
+                        <option value = "NA">== Nuevo registro ==</option>
+                        <%
+                            }
+                        %>
+                        <%
+                            for (Servicio sv : servicios_list){
+                                if (serv == null || serv.getId_servicio() != sv.getId_servicio()){
+                        %>
+                        <option value="<%= sv.getId_servicio() %>">
+                            <%= sv.getId_servicio() %>
+                        </option>
+                        <%
+                                }
+                            }
+                        %>
+                    </select>
                     <label for="id_cliente">Cliente</label>
                     <select name="id_cliente" id="id_cliente">
-                        <option value="<%= serv != null ? serv.getId_cliente() : "" %>"><%= serv != null && cl_serv != null ? cl_manager.clienteToString(cl_serv) : "--Seleccione un cliente--" %></option>
+                        <option value="<%= serv != null && serv.getCliente() != null ? serv.getCliente().getId_cliente() : "" %>"><%= serv != null && serv.getCliente() != null ? serv.getCliente().toString() : "--Seleccione un cliente--" %></option>
                         <%
                             for (Cliente c : cl){
-                                if (serv == null || !c.getCodigo().equals(String.valueOf(serv.getId_equipo()))){
+                                if (serv == null || c.getId_cliente() != serv.getCliente().getId_cliente()){
                         %>
-                        <option value="<%= c.getCodigo() %>">
-                            <%= cl_manager.clienteToString(c) %>
+                        <option value="<%= c.getId_cliente() %>">
+                            <%= c.toString() %>
                         </option>
                         <%
                                 }
@@ -100,12 +115,12 @@
                     </select>
                     <label for="id_equipo">Equipo</label>
                     <select name="id_equipo" id="id_equipo">
-                        <option selected="true" value="<%= serv != null ? serv.getId_equipo(): "" %>"><%= serv != null && eq_serv != null ? eq_serv.getNombre_equipo() : "--Seleccione un equipo--" %></option>
+                        <option selected="true" value="<%= serv != null && serv.getEquipo() != null ? serv.getEquipo().getId_equipo() : "" %>"><%= serv != null && serv.getEquipo() != null ? serv.getEquipo().getNombre_equipo() : "--Seleccione un equipo--" %></option>
                         <%
-                            for (EquipoTrabajo e : eq){
-                                if (serv == null || e.getCodigo() != serv.getId_equipo()){
+                            for (Equipo e : eq){
+                                if (serv == null || e.getId_equipo() != serv.getEquipo().getId_equipo()){
                         %>
-                        <option value="<%= e.getCodigo() %>">
+                        <option value="<%= e.getId_equipo() %>">
                             <%= e.getNombre_equipo() %>
                         </option>
                         <%
@@ -114,22 +129,22 @@
                         %>
                     </select>
                     <label for="fecha">Fecha</label>
-                    <input type="date" name="fecha" id="fecha" value="<%= serv != null ? java.sql.Date.valueOf(serv.getFecha()) : "" %>">
+                    <input type="date" name="fecha" id="fecha" value="<%= serv != null ? serv.getFecha() : "" %>">
                     <label for="hora">Hora</label>
-                    <input type="time" name="hora" id="hora" value="<%= serv != null ? java.sql.Time.valueOf(serv.getHora()) : "" %>">
+                    <input type="time" name="hora" id="hora" value="<%= serv != null ? serv.getHora() : "" %>">
                     <label for="tiempo_estimado">Tiempo estimado</label>
-                    <input type="time" name="tiempo_estimado" id="tiempo_estimado" value="<%= serv != null ? java.sql.Time.valueOf(serv.getTiempo_estimado()) : "" %>">
+                    <input type="time" name="tiempo_estimado" id="tiempo_estimado" value="<%= serv != null ? serv.getTiempo_estimado() : "" %>">
                     <label for="tiempo_finalizacion">Finalización</label>
-                    <input type="time" name="tiempo_finalizacion" id="tiempo_finalizacion" value="<%= serv != null ? java.sql.Time.valueOf(serv.getTiempo_finalizacion()) : "" %>" disabled>
+                    <input type="time" name="tiempo_finalizacion" id="tiempo_finalizacion" value="<%= serv != null ? serv.getTiempo_finalizacion() : "" %>" disabled>
                     <label for="id_tipoLimp">Limpieza</label>
                     <select name="id_tipoLimp" id="id_tipoLimp">
-                        <option selected="true" value="<%= serv != null ? serv.getId_tipo_limp(): "" %>"><%= serv != null && limp_serv != null ? limp_serv.getNombre() : "--Seleccione un tipo de limpieza--"%></option>
+                        <option selected="true" value="<%= serv != null && serv.getTipoLimpieza() != null ? serv.getTipoLimpieza().getId_tipoLimp(): "" %>"><%= serv != null && serv.getTipoLimpieza() != null ? serv.getTipoLimpieza().getNombre_tipo() : "--Seleccione un tipo de limpieza--"%></option>
                         <%
-                            for (Varios tl : ti_li){
-                                if (serv == null || tl.getCodigo() != serv.getId_tipo_limp()){
+                            for (Tipo_limpieza tl : ti_li){
+                                if (serv == null || tl.getId_tipoLimp() != serv.getTipoLimpieza().getId_tipoLimp()){
                         %>
-                        <option value="<%= tl.getCodigo() %>">
-                            <%= tl.getNombre() %>
+                        <option value="<%= tl.getId_tipoLimp() %>">
+                            <%= tl.getNombre_tipo() %>
                         </option>
                         <%
                                 }

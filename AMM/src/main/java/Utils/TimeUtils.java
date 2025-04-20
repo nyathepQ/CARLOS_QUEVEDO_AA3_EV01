@@ -3,16 +3,25 @@ package Utils;
  *
  * @author nyath
  */
-import java.time.LocalTime;
+import java.sql.Time;
 import java.time.Duration;
 import java.sql.Timestamp;
+import java.time.LocalTime;
 
 public class TimeUtils {
-    public LocalTime calcHoraFinalizacion(LocalTime hora_inicial, LocalTime duracion){
-        //convertir la hora a sumar en Duration
-        Duration tiempo_sum = Duration.ofHours(duracion.getHour()).plusMinutes(duracion.getMinute());
-        //retornar la suma de Duration a la hora inicial
-        return hora_inicial.plus(tiempo_sum);
+    public Time calcHoraFinalizacion(Time hora_inicial, Time duracion){
+        // Convertir a LocalTime
+        LocalTime inicial = hora_inicial.toLocalTime();
+        LocalTime tiempoDuracion = duracion.toLocalTime();
+        
+        // Crear Duration
+        Duration tiempo_sum = Duration.ofHours(tiempoDuracion.getHour()).plusMinutes(tiempoDuracion.getMinute());
+        
+        // Sumar duración
+        LocalTime result = inicial.plus(tiempo_sum);
+        
+        // Retornar valor como sql.Time
+        return Time.valueOf(result);
     }
     
     public Timestamp getNowTime (){

@@ -4,14 +4,9 @@
     Author     : nyath
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
 <%@page import="Clases.Servicio"%>
-<%@page import="Clases.Cliente"%>
-<%@page import="Servicios.ClienteManager"%>
-<%@page import="Clases.EquipoTrabajo"%>
-<%@page import="Servicios.EquipoTrabajoManager"%>
-<%@page import="Clases.Varios"%>
-<%@page import="Servicios.VariosManager"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,7 +16,7 @@
     </head>
     <body>
         <%
-            Servicio[] servicios = (Servicio[]) request.getAttribute("servicios");
+            List<Servicio> servicios = (List<Servicio>) request.getAttribute("servicios");
         %>
         <h2>Listado de Servicios</h2>
         
@@ -41,20 +36,13 @@
             
             <%
                 if(servicios != null){
-                    ClienteManager cl = new ClienteManager();
-                    EquipoTrabajoManager eq = new EquipoTrabajoManager();
-                    VariosManager vr = new VariosManager();
-                    
-                    for(Servicio s: servicios){
-                        Cliente clien = cl.buscarCliente(s.getId_cliente());
-                        EquipoTrabajo equip = eq.buscarEquipo(s.getId_equipo());
-                        Varios tl = vr.buscarTipoVarios("tipo_limpieza", "id_tipoLimp", s.getId_tipo_limp());
+                    for(Servicio s: servicios){                        
             %>
             <tr>
                 <td><%= s.getId_servicio() %></td>
-                <td><%= cl.clienteToString(clien) %></td>
-                <td><%= equip.getNombre_equipo() %></td>
-                <td><%= tl.getNombre() %></td>
+                <td><%= s.getCliente().toString() %></td>
+                <td><%= s.getEquipo().getNombre_equipo() %></td>
+                <td><%= s.getTipoLimpieza().getNombre_tipo() %></td>
                 <td><%= s.getFecha() %></td>
                 <td><%= s.getHora()%></td>
                 <td><%= s.getTiempo_estimado()%></td>

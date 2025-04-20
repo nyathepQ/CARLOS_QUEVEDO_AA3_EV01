@@ -4,6 +4,7 @@
     Author     : nyath
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="Clases.Cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
     </head>
     <body>
         <%
-            Cliente[] clientes = (Cliente[]) request.getAttribute("clientes");
+            List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
         %>
         <h2>Listado de Clientes</h2>
         
@@ -35,13 +36,13 @@
                     for(Cliente c: clientes){                        
             %>
             <tr>
-                <td><%= c.getCodigo() %></td>
-                <td><%= c.getNombres() %></td>
-                <td><%= c.getApellidos() %></td>
-                <td><%= c.getDireccion() %></td>
-                <td><%= c.getTelefono() %></td>
-                <td><%= c.getEmail() %></td>
-                <td><%= c.getObservaciones() %></td>
+                <td><%= c.getId_cliente() %></td>
+                <td><%= c.getNombre_cliente() %></td>
+                <td><%= c.getApellido_cliente()%></td>
+                <td><%= c.getDireccion_cliente()%></td>
+                <td><%= c.getTelefono_cliente()%></td>
+                <td><%= c.getCorreo_cliente() %></td>
+                <td><%= c.getObservacion_cliente()%></td>
             </tr>
             <%
                 }

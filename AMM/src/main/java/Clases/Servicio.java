@@ -18,15 +18,15 @@ public class Servicio {
     private int id_servicio;
     
     @ManyToOne
-    @JoinColumn(name = "cliente") //clave foreana
+    @JoinColumn(name = "id_cliente") //clave foreana
     private Cliente cliente;
     
     @ManyToOne
-    @JoinColumn(name = "equipo") //clave foreana
+    @JoinColumn(name = "id_equipo") //clave foreana
     private Equipo equipo;
     
     @ManyToOne
-    @JoinColumn(name = "tipoLimpieza") //clave foreana
+    @JoinColumn(name = "id_tipoLimp") //clave foreana
     private Tipo_limpieza tipoLimpieza;
     
     @Column(name = "fecha")
@@ -50,7 +50,7 @@ public class Servicio {
     @Column(name = "user_crea")
     private String user_crea;
     
-    @Column(name = "creado_el")
+    @Column(name = "creado_el", insertable = false, updatable = false)
     private Timestamp creado_el;
     
     @Column(name = "user_modifica")
@@ -219,6 +219,5 @@ public class Servicio {
 
     public void setModificado_el(Timestamp modificado_el) {
         this.modificado_el = modificado_el;
-    }
-    
+    }    
 }

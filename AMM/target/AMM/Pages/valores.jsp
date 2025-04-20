@@ -4,7 +4,11 @@
     Author     : nyath
 --%>
 
-<%@page import="Clases.Varios"%>
+<%@page import="Servicios.TiLiManager"%>
+<%@page import="Servicios.TiDoManager"%>
+<%@page import="Clases.Tipo_limpieza"%>
+<%@page import="java.util.List"%>
+<%@page import="Clases.Tipo_documento"%>
 <%@page import="Clases.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,12 +23,18 @@
 <body>
     <%
         Usuario user = (Usuario) session.getAttribute("usuario"); //obtener datos de sesión
-        Varios tipo_docu = (Varios) request.getAttribute("tipo_docu");
-        Varios tipo_limp = (Varios) request.getAttribute("tipo_limp");
-        if(user == null){ //si no hay sesión iniciada regresar al index
+        Tipo_documento tipo_docu = (Tipo_documento) request.getAttribute("tipo_docu");
+        Tipo_limpieza tipo_limp = (Tipo_limpieza) request.getAttribute("tipo_limp");
+        
+        if(user == null || user.getTipoUsuario().getId_tipoUsua() == 3){ //si no hay sesión iniciada regresar al index
             response.sendRedirect("../index.jsp");
             return;
-        }        
+        }
+        //lista de select
+        TiDoManager tdManager = new TiDoManager();
+        TiLiManager tlManager = new TiLiManager();
+        List<Tipo_documento> tDocum_list = tdManager.getAllTipoDocumento();
+        List<Tipo_limpieza> tLimp_list = tlManager.getAllTipoLimpieza();
     %>
     <header class="header_pages">
         <div class="iconUserName">
@@ -32,7 +42,7 @@
                 <i class="fa-solid fa-circle-question fa-2x question_icon" style="color: black;"></i>
             </a>
             <p class ="name_user_show">
-                <%= user != null ? user.getUser() : "Invitado" %>
+                <%= user != null ? user.getNombre_usuario(): "Invitado" %>
             </p>            
         </div>
         <div class="logo_list">
@@ -60,9 +70,29 @@
                 <h2>Tipo de documento</h2>
                 <div class="form_display">
                     <label for="id_tipoDocu">Código</label>
-                    <input type="text" name="id_tipoDocu" id="id_tipoDocu" value="<%= tipo_docu != null ? tipo_docu.getCodigo() : "" %>">
+                    <Select name="id_tipoDocu" id="id_tipoDocu">
+                        <option value="<%= tipo_docu != null ? tipo_docu.getId_tipoDocu() : "NA"  %>"><%= tipo_docu != null ? tipo_docu.getId_tipoDocu(): "== Nuevo registro ==" %></option>
+                        <%
+                            if(tipo_docu != null){
+                        %>
+                        <option value = "NA">== Nuevo registro ==</option>
+                        <%
+                            }
+                        %>
+                        <%
+                            for (Tipo_documento td : tDocum_list){
+                                if (tipo_docu == null || td.getId_tipoDocu() != tipo_docu.getId_tipoDocu()){
+                        %>
+                        <option value="<%= td.getId_tipoDocu() %>">
+                            <%= td.getId_tipoDocu() %>
+                        </option>
+                        <%
+                                }
+                            }
+                        %>
+                    </Select>
                     <label for="nombre_tipoD">Nombre</label>
-                    <input type="text" name="nombre_tipoD" id="nombre_tipoD" value="<%= tipo_docu != null ? tipo_docu.getNombre(): "" %>">
+                    <input type="text" name="nombre_tipoD" id="nombre_tipoD" value="<%= tipo_docu != null ? tipo_docu.getNombre_tipo(): "" %>">
                 </div>
                 <div>
                     <button type="submit" name="accion" value="buscar_d">Buscar</button>
@@ -83,9 +113,29 @@
                 <h2>Tipo de Limpieza</h2>
                 <div class="form_display">
                     <label for="id_tipoLimp">Código</label>
-                    <input type="text" name="id_tipoLimp" id="id_tipoLimp" value="<%= tipo_limp != null ? tipo_limp.getCodigo() : "" %>">
+                    <Select name="id_tipoLimp" id="id_tipoLimp">
+                        <option value="<%= tipo_limp != null ? tipo_limp.getId_tipoLimp() : "NA"  %>"><%= tipo_limp != null ? tipo_limp.getId_tipoLimp(): "== Nuevo registro ==" %></option>
+                        <%
+                            if(tipo_limp != null){
+                        %>
+                        <option value = "NA">== Nuevo registro ==</option>
+                        <%
+                            }
+                        %>
+                        <%
+                            for (Tipo_limpieza tl : tLimp_list){
+                                if (tipo_limp == null || tl.getId_tipoLimp()!= tipo_limp.getId_tipoLimp()){
+                        %>
+                        <option value="<%= tl.getId_tipoLimp() %>">
+                            <%= tl.getId_tipoLimp() %>
+                        </option>
+                        <%
+                                }
+                            }
+                        %>
+                    </Select>
                     <label for="nombre_tipoL">Nombre</label>
-                    <input type="text" name="nombre_tipoL" id="nombre_tipoL" value="<%= tipo_limp != null ? tipo_limp.getNombre() : "" %>">
+                    <input type="text" name="nombre_tipoL" id="nombre_tipoL" value="<%= tipo_limp != null ? tipo_limp.getNombre_tipo() : "" %>">
                 </div>
                 <div>
                     <button type="submit" name="accion" value="buscar_l">Buscar</button>

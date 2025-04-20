@@ -4,6 +4,8 @@
     Author     : nyath
 --%>
 
+<%@page import="Servicios.ClienteManager"%>
+<%@page import="java.util.List"%>
 <%@page import="Clases.Cliente"%>
 <%@page import="Clases.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -23,7 +25,12 @@
         if(user == null){ //si no hay sesión iniciada regresar al index
             response.sendRedirect("../index.jsp");
             return;
-        }        
+        }
+        
+        //todos los id's existentes
+        ClienteManager cManager = new ClienteManager();
+        List<Cliente> clientes_list = cManager.getAllCliente();
+
     %>
     <header class="header_pages">
         <div class="iconUserName">
@@ -31,7 +38,7 @@
                 <i class="fa-solid fa-circle-question fa-2x question_icon" style="color: black;"></i>
             </a>
             <p class ="name_user_show">
-                <%= user != null ? user.getUser() : "Invitado" %>
+                <%= user != null ? user.getNombre_usuario(): "Invitado" %>
             </p>            
         </div>
         <div class="logo_list">
@@ -58,19 +65,39 @@
                 <% } %>
                 <div class="form_display">  
                     <label for="id_cliente">Código</label>
-                    <input type="text" name="id_cliente" id="id_cliente" value="<%= cliente != null ? cliente.getCodigo() : "" %>">                  
+                    <select name="id_cliente" id="id_cliente">
+                        <option value="<%= cliente != null ? cliente.getId_cliente() : "NA"  %>"><%= cliente != null ? cliente.getId_cliente() : "== Nuevo registro ==" %></option>
+                        <%
+                            if(cliente != null){
+                        %>
+                        <option value = "NA">== Nuevo registro ==</option>
+                        <%
+                            }
+                        %>
+                        <%
+                            for (Cliente cl : clientes_list){
+                                if (cliente == null || cl.getId_cliente() != cliente.getId_cliente()){
+                        %>
+                        <option value="<%= cl.getId_cliente() %>">
+                            <%= cl.getId_cliente() %>
+                        </option>
+                        <%
+                                }
+                            }
+                        %>
+                    </select>
                     <label for="nombre_cliente">Nombre</label>
-                    <input type="text" name="nombre_cliente" id="nombre_cliente" value="<%= cliente != null ? cliente.getNombres() : "" %>">
+                    <input type="text" name="nombre_cliente" id="nombre_cliente" value="<%= cliente != null ? cliente.getNombre_cliente() : "" %>">
                     <label for="apellido_cliente">Apellido</label>
-                    <input type="text" name="apellido_cliente" id="apellido_cliente" value="<%= cliente != null ? cliente.getApellidos() : "" %>">
+                    <input type="text" name="apellido_cliente" id="apellido_cliente" value="<%= cliente != null ? cliente.getApellido_cliente() : "" %>">
                     <label for="direccion_cliente">Dirección</label>
-                    <input type="text" name="direccion_cliente" id="direccion_cliente" value="<%= cliente != null ? cliente.getDireccion() : "" %>">
+                    <input type="text" name="direccion_cliente" id="direccion_cliente" value="<%= cliente != null ? cliente.getDireccion_cliente() : "" %>">
                     <label for="telefono_cliente">Telefono</label>
-                    <input type="tel" name="telefono_cliente" id="telefono_cliente" value="<%= cliente != null ? cliente.getTelefono() : "" %>">
-                    <label for="correo_cliente">Telefono</label>
-                    <input type="tel" name="correo_cliente" id="correo_cliente" value="<%= cliente != null ? cliente.getEmail() : "" %>">
+                    <input type="tel" name="telefono_cliente" id="telefono_cliente" value="<%= cliente != null ? cliente.getTelefono_cliente() : "" %>">
+                    <label for="correo_cliente">Correo</label>
+                    <input type="text" name="correo_cliente" id="correo_cliente" value="<%= cliente != null ? cliente.getCorreo_cliente(): "" %>">
                     <label for="observacion_cliente">Observaciones</label>
-                    <input type="text" name="observacion_cliente" id="observacion_cliente" value="<%= cliente != null ? cliente.getObservaciones() : "" %>">
+                    <input type="text" name="observacion_cliente" id="observacion_cliente" value="<%= cliente != null ? cliente.getObservacion_cliente() : "" %>">
                 </div>
                 <div>
                     <button type="submit" name="accion" value="buscar">Buscar</button>
@@ -82,5 +109,4 @@
         </div>
     </div>
 </body>
-<!--<script type="module" src="../Js/clientes.js"></script>-->
 </html>

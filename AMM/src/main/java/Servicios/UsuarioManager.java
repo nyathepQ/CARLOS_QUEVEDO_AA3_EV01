@@ -3,7 +3,8 @@ package Servicios;
  *
  * @author nyath
  */
-import Clases.Servicio;
+import Clases.Tipo_documento;
+import Clases.Tipo_usuario;
 import Clases.Usuario;
 import Utils.SessionHibernate;
 import java.util.List;
@@ -18,21 +19,41 @@ public class UsuarioManager {
         try (Session session = SessionHibernate.getSessionFactory().openSession()){
             tx = session.beginTransaction(); //iniciar transacción
             
-            session.persist(usuario); //guarda el registro en la base de datos
+            //Reasociar los objetos a esta nueva session
+            if(usuario.getTipoDocumento() != null){
+                Tipo_documento doc = session.get(Tipo_documento.class, usuario.getTipoDocumento().getId_tipoDocu());
+                usuario.setTipoDocumento(doc);
+            }
             
-            tx.commit(); //confirma la transacción
+            if(usuario.getTipoUsuario() != null){
+                Tipo_usuario tipo = session.get(Tipo_usuario.class, usuario.getTipoUsuario().getId_tipoUsua());
+                usuario.setTipoUsuario(tipo);
+            }
+            //crear id con java
+            String id = generarId(usuario);
+            usuario.setId_usuario(id);
+            
+            System.err.println("llego");
+            session.persist(usuario); 
+            System.err.println("paso");
+            tx.commit();//confirma la transacción
+            
             return true;
         } catch (Exception e){
-            if(tx != null) tx.rollback(); //revertir transacción si hay error
+            try{
+                if(tx != null && tx.getStatus().canRollback()) tx.rollback(); //revertir transacción si hay error
+            } catch (Exception rollbackEx){
+                rollbackEx.printStackTrace();
+            }            
             e.printStackTrace();
             return false;
         }
     }
     
-    public Servicio buscarUsuario(String id_usuario) {
+    public Usuario buscarUsuario(String id_usuario) {
         
         try (Session session = SessionHibernate.getSessionFactory().openSession()){
-            return session.get(Servicio.class, id_usuario); //buscar el registro por id
+            return session.get(Usuario.class, id_usuario); //buscar el registro por id
         } catch (Exception e) {
             e.printStackTrace();
             return null; //retornar null si hay error
@@ -93,7 +114,7 @@ public class UsuarioManager {
     public Usuario verificarCredencial(String user, String pass){
         try(Session session = SessionHibernate.getSessionFactory().openSession()){
             //secuencia hql para buscar el registro
-            String hql = "FROM USUARIO WHERE nombre_usuario = :user AND contrasena_usuario = :pass";
+            String hql = "FROM Usuario WHERE nombre_usuario = :user AND contrasena_usuario = :pass";
             Query<Usuario> query = session.createQuery(hql, Usuario.class);
             query.setParameter("user", user);
             query.setParameter("pass", pass);
@@ -104,5 +125,15 @@ public class UsuarioManager {
             e.printStackTrace();
             return null; //retornar null si hay error
         }
-    }    
+    }
+    
+    public String generarId (Usuario usuario){
+        String tu = usuario.getTipoUsuario().getNombre_tipo().trim().substring(0, 3).toUpperCase();
+        String nom = usuario.getNombres().trim().substring(0, 2).toUpperCase();
+        String ape = usuario.getApellidos().trim().substring(0, 2).toUpperCase();
+        int random = (int)(Math.random() * 1_000_000); //numero al azar
+        String numStr = String.format("%06d", random);
+        
+        return tu + "-" + nom + ape + numStr;
+    }
 }

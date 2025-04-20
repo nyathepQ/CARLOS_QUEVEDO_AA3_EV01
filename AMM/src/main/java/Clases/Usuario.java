@@ -17,7 +17,7 @@ public class Usuario {
     private String id_usuario;
     
     @ManyToOne
-    @JoinColumn(name = "id_usuario") //clave foranea
+    @JoinColumn(name = "id_tipoUsua") //clave foranea
     private Tipo_usuario tipoUsuario;
     
     @Column(name = "nombre_usuario")
@@ -39,8 +39,8 @@ public class Usuario {
     @Column(name = "apellidos")
     private String apellidos;
     
-    @Column(name = "telefono")
-    private String telefono;
+    @Column(name = "telefono_usuario")
+    private String telefono_usuario;
     
     @Column(name = "correo_usuario")
     private String correo_usuario;
@@ -48,7 +48,7 @@ public class Usuario {
     @Column(name = "user_crea")
     private String user_crea;
     
-    @Column(name = "creado_el")
+    @Column(name = "creado_el", insertable = false, updatable = false)
     private Timestamp creado_el;
     
     @Column(name = "user_modifica")
@@ -64,7 +64,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Tipo_usuario tipoUsuario, String nombre_usuario, String contrasena_usuario, Tipo_documento tipoDocumento, String documento_usuario, String nombres, String apellidos, String telefono, String correo_usuario, String user_crea) {
+    public Usuario(Tipo_usuario tipoUsuario, String nombre_usuario, String contrasena_usuario, Tipo_documento tipoDocumento, String documento_usuario, String nombres, String apellidos, String telefono_usuario, String correo_usuario, String user_crea) {
         this.tipoUsuario = tipoUsuario;
         this.nombre_usuario = nombre_usuario;
         this.contrasena_usuario = contrasena_usuario;
@@ -72,12 +72,12 @@ public class Usuario {
         this.documento_usuario = documento_usuario;
         this.nombres = nombres;
         this.apellidos = apellidos;
-        this.telefono = telefono;
+        this.telefono_usuario = telefono_usuario;
         this.correo_usuario = correo_usuario;
         this.user_crea = user_crea;
     }
 
-    public Usuario(Tipo_usuario tipoUsuario, String nombre_usuario, String contrasena_usuario, Tipo_documento tipoDocumento, String documento_usuario, String nombres, String apellidos, String telefono, String correo_usuario, String user_modifica, Timestamp modificado_el) {
+    public Usuario(Tipo_usuario tipoUsuario, String nombre_usuario, String contrasena_usuario, Tipo_documento tipoDocumento, String documento_usuario, String nombres, String apellidos, String telefono_usuario, String correo_usuario, String user_modifica, Timestamp modificado_el) {
         this.tipoUsuario = tipoUsuario;
         this.nombre_usuario = nombre_usuario;
         this.contrasena_usuario = contrasena_usuario;
@@ -85,13 +85,13 @@ public class Usuario {
         this.documento_usuario = documento_usuario;
         this.nombres = nombres;
         this.apellidos = apellidos;
-        this.telefono = telefono;
+        this.telefono_usuario = telefono_usuario;
         this.correo_usuario = correo_usuario;
         this.user_modifica = user_modifica;
         this.modificado_el = modificado_el;
     }
 
-    public Usuario(String id_usuario, Tipo_usuario tipoUsuario, String nombre_usuario, String contrasena_usuario, Tipo_documento tipoDocumento, String documento_usuario, String nombres, String apellidos, String telefono, String correo_usuario, String user_crea, Timestamp creado_el, String user_modifica, Timestamp modificado_el) {
+    public Usuario(String id_usuario, Tipo_usuario tipoUsuario, String nombre_usuario, String contrasena_usuario, Tipo_documento tipoDocumento, String documento_usuario, String nombres, String apellidos, String telefono_usuario, String correo_usuario, String user_crea, Timestamp creado_el, String user_modifica, Timestamp modificado_el) {
         this.id_usuario = id_usuario;
         this.tipoUsuario = tipoUsuario;
         this.nombre_usuario = nombre_usuario;
@@ -100,7 +100,7 @@ public class Usuario {
         this.documento_usuario = documento_usuario;
         this.nombres = nombres;
         this.apellidos = apellidos;
-        this.telefono = telefono;
+        this.telefono_usuario = telefono_usuario;
         this.correo_usuario = correo_usuario;
         this.user_crea = user_crea;
         this.creado_el = creado_el;
@@ -174,13 +174,13 @@ public class Usuario {
         this.apellidos = apellidos;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getTelefono_usuario() {
+        return telefono_usuario;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
+    public void setTelefono_usuario(String telefono_usuario) {
+        this.telefono_usuario = telefono_usuario;
+    }    
 
     public String getCorreo_usuario() {
         return correo_usuario;

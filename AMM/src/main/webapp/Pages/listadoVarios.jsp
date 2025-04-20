@@ -4,7 +4,10 @@
     Author     : nyath
 --%>
 
-<%@page import="Clases.Varios"%>
+<%@page import="Clases.Tipo_usuario"%>
+<%@page import="Clases.Tipo_documento"%>
+<%@page import="Clases.Tipo_limpieza"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,9 +18,9 @@
     </head>
     <body>
         <%
-            Varios[] documento = (Varios[]) request.getAttribute("tipos_docu");
-            Varios[] limpieza = (Varios[]) request.getAttribute("tipos_limp");
-            Varios[] usuario = (Varios[]) request.getAttribute("tipos_usua");
+            List<Tipo_documento> documento = (List<Tipo_documento>) request.getAttribute("tipos_docu");
+            List<Tipo_limpieza> limpieza = (List<Tipo_limpieza>) request.getAttribute("tipos_limp");
+            List<Tipo_usuario> usuario = (List<Tipo_usuario>) request.getAttribute("tipos_usua");
         
         if (documento != null) {
         %>
@@ -42,11 +45,11 @@
             
             <%
                 if(documento != null){
-                    for(Varios d: documento){                        
+                    for(Tipo_documento d: documento){                        
             %>
             <tr>
-                <td><%= d.getCodigo() %></td>
-                <td><%= d.getNombre() %></td>
+                <td><%= d.getId_tipoDocu() %></td>
+                <td><%= d.getNombre_tipo()%></td>
             </tr>
             <%
                 }
@@ -55,11 +58,11 @@
             
             <%
                 if(limpieza != null){
-                    for(Varios l: limpieza){                        
+                    for(Tipo_limpieza l: limpieza){                        
             %>
             <tr>
-                <td><%= l.getCodigo() %></td>
-                <td><%= l.getNombre() %></td>
+                <td><%= l.getId_tipoLimp() %></td>
+                <td><%= l.getNombre_tipo() %></td>
             </tr>
             <%
                 }
@@ -68,11 +71,11 @@
             
             <%
                 if(usuario != null){
-                    for(Varios u: usuario){                        
+                    for(Tipo_usuario u: usuario){                        
             %>
             <tr>
-                <td><%= u.getCodigo() %></td>
-                <td><%= u.getNombre() %></td>
+                <td><%= u.getId_tipoUsua() %></td>
+                <td><%= u.getNombre_tipo() %></td>
             </tr>
             <%
                 }

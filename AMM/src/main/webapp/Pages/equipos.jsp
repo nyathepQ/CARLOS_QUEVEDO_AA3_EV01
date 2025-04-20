@@ -4,8 +4,10 @@
     Author     : nyath
 --%>
 
+<%@page import="Servicios.EquipoManager"%>
+<%@page import="java.util.List"%>
 <%@page import="Servicios.UsuarioManager"%>
-<%@page import="Clases.EquipoTrabajo"%>
+<%@page import="Clases.Equipo"%>
 <%@page import="Clases.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,31 +22,17 @@
 <body>
     <%
         Usuario user = (Usuario) session.getAttribute("usuario"); //obtener datos de sesión
-        EquipoTrabajo equipo = (EquipoTrabajo) request.getAttribute("equipo");
+        Equipo equipo = (Equipo) request.getAttribute("equipo");
         if(user == null){ //si no hay sesión iniciada regresar al index
             response.sendRedirect("../index.jsp");
             return;
         }
-        UsuarioManager user_manager = new UsuarioManager();
-        Usuario[] empleados = user_manager.getAllUsuario();
-        Usuario vacio = user_manager.buscarUsuario("10", "");
-        
-        Usuario lider = new Usuario();
-        Usuario miembro1 = new Usuario();
-        Usuario miembro2 = new Usuario();
-        
-        if(equipo != null){
-            if(equipo.getLider() != null){
-                lider = user_manager.buscarUsuario(equipo.getLider(), "");
-            }
-            if(equipo.getMiembro1() != null){
-                miembro1 = user_manager.buscarUsuario(equipo.getMiembro1(), "");
-            }
-            if(equipo.getMiembro2() != null){
-                miembro2 = user_manager.buscarUsuario(equipo.getMiembro2(), "");
-            }            
-        }
-        
+        //lista de usuarios para select
+        UsuarioManager usManager = new UsuarioManager();
+        List<Usuario> allUser = usManager.getAllUsuario();
+        //lista de equipos para select
+        EquipoManager eqManager = new EquipoManager();
+        List<Equipo> equipos_lista = eqManager.getAllEquipo();
     %>
     <header class="header_pages">
         <div class="iconUserName">
@@ -52,7 +40,7 @@
                 <i class="fa-solid fa-circle-question fa-2x question_icon" style="color: black;"></i>
             </a>
             <p class ="name_user_show">
-                <%= user != null ? user.getUser() : "Invitado" %>
+                <%= user != null ? user.getNombre_usuario(): "Invitado" %>
             </p>            
         </div>
         <div class="logo_list">
@@ -79,18 +67,49 @@
                 <% } %>
                 <div class="form_display">                    
                     <label for="id_equipo">Código</label>
-                    <input type="text" name="id_equipo" id="id_equipo" value="<%= equipo != null ? equipo.getCodigo() : "" %>">
+                    <select name="id_equipo" id="id_equipo">
+                        <option value="<%= equipo != null ? equipo.getId_equipo() : "NA"  %>"><%= equipo != null ? equipo.getId_equipo() : "== Nuevo registro ==" %></option>
+                        <%
+                            if(equipo != null){
+                        %>
+                        <option value = "NA">== Nuevo registro ==</option>
+                        <%
+                            }
+                        %>
+                        <%
+                            for (Equipo eq : equipos_lista){
+                                if (equipo == null || equipo.getId_equipo() != eq.getId_equipo()){
+                        %>
+                        <option value="<%= eq.getId_equipo() %>">
+                            <%= eq.getId_equipo() %>
+                        </option>
+                        <%
+                                }
+                            }
+                        %>
+                    </select>
                     <label for="nombre_equipo">Nombre de Equipo</label>
                     <input type="text" name="nombre_equipo" id="nombre_equipo" value="<%= equipo != null ? equipo.getNombre_equipo() : "" %>">
                     <label for="lider">Lider</label>
                     <select name="lider" id="lider">
-                        <option value="<%= equipo != null ? equipo.getLider() : vacio.getCodigo() %>"><%= equipo != null && lider != null ? user_manager.UsuarioToString(lider) : user_manager.UsuarioToString(vacio) %></option>
                         <%
-                            for (Usuario l : empleados){
-                                if (equipo == null || !l.getCodigo().equals(equipo.getLider())){
+                                Usuario lider = null;
+                                Usuario miembro1 = null;
+                                Usuario miembro2 = null;
+                                
+                                if(equipo != null){
+                                lider = equipo.getUsuariosEquipos().get(0).getUsuario();
+                                miembro1 = equipo.getUsuariosEquipos().get(1).getUsuario();
+                                miembro2 = equipo.getUsuariosEquipos().get(2).getUsuario();
+                            }
                         %>
-                        <option value="<%= l.getCodigo() %>">
-                            <%= user_manager.UsuarioToString(l) %>
+                        <option value="<%= equipo != null && lider != null ? equipo.getLider() : "NA" %>"><%= equipo != null && lider != null ? lider.toString() : "== Seleccione empleado ==" %></option>
+                        <%
+                            for (Usuario l : allUser){
+                                if (equipo == null || !l.getId_usuario().equals(equipo.getLider())){
+                        %>
+                        <option value="<%= l.getId_usuario() %>">
+                            <%= l.toString() %>
                         </option>
                         <%
                                 }
@@ -99,13 +118,13 @@
                     </select>
                     <label for="miembro1">Miembro</label>
                     <select name="miembro1" id="miembro1">
-                        <option value="<%= equipo != null ? equipo.getMiembro1(): vacio.getCodigo() %>"><%= equipo != null && miembro1 != null ? user_manager.UsuarioToString(miembro1) : user_manager.UsuarioToString(vacio) %></option>
+                        <option value="<%= equipo != null && miembro1 != null ? equipo.getMiembro1() : "NA" %>"><%= equipo != null && miembro1 != null ? miembro1.toString() : "== Seleccione empleado ==" %></option>
                         <%
-                            for (Usuario l : empleados){
-                                if (equipo == null || !l.getCodigo().equals(equipo.getMiembro1())){
+                            for (Usuario l : allUser){
+                                if (equipo == null || !l.getId_usuario().equals(equipo.getMiembro1())){
                         %>
-                        <option value="<%= l.getCodigo() %>">
-                            <%= user_manager.UsuarioToString(l) %>
+                        <option value="<%= l.getId_usuario() %>">
+                            <%= l.toString() %>
                         </option>
                         <%
                                 }
@@ -114,13 +133,13 @@
                     </select>
                     <label for="miembro2">Miembro</label>
                     <select name="miembro2" id="miembro2">
-                        <option value="<%= equipo != null ? equipo.getMiembro2(): vacio.getCodigo() %>"><%= equipo != null && miembro2 != null ? user_manager.UsuarioToString(miembro2) : user_manager.UsuarioToString(vacio) %></option>
+                        <option value="<%= equipo != null && miembro2 != null ? equipo.getMiembro2() : "NA" %>"><%= equipo != null && miembro2 != null ? miembro2.toString() : "== Seleccione empleado ==" %></option>
                         <%
-                            for (Usuario l : empleados){
-                                if (equipo == null || !l.getCodigo().equals(equipo.getMiembro2())){
+                            for (Usuario l : allUser){
+                                if (equipo == null || !l.getId_usuario().equals(equipo.getMiembro2())){
                         %>
-                        <option value="<%= l.getCodigo() %>">
-                            <%= user_manager.UsuarioToString(l) %>
+                        <option value="<%= l.getId_usuario() %>">
+                            <%= l.toString() %>
                         </option>
                         <%
                                 }

@@ -4,11 +4,14 @@
     Author     : nyath
 --%>
 
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Clases.Usuario"%>
-<%@page import="Clases.Varios"%>
+<%@page import="Clases.Tipo_documento"%>
+<%@page import="Clases.Tipo_usuario"%>
 <%@page import="Servicios.UsuarioManager"%>
-<%@page import="Servicios.VariosManager"%>
+<%@page import="Servicios.TiDoManager"%>
+<%@page import="Servicios.TiUsManager"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,23 +24,20 @@
 <body>
     <%
         Usuario user = (Usuario) session.getAttribute("usuario"); //obtener datos de sesión
-        Usuario empleado = (Usuario) request.getAttribute("empleado");
+        Usuario empleado = (Usuario) request.getAttribute("empleado"); //valor de empleado cambia en cada request
         if(user == null){ //si no hay sesión iniciada regresar al index
             response.sendRedirect("../index.jsp");
             return;
         }
-        VariosManager tipos_manager = new VariosManager();
-        Varios[] ti_do = tipos_manager.getAllTipoVarios("tipo_documento", "id_tipoDocu");
-        Varios[] ti_us = tipos_manager.getAllTipoVarios("tipo_usuario", "id_tipoUsua");
+        //valores para select > option
+        TiDoManager tdManager = new TiDoManager();
+        TiUsManager tuManager = new TiUsManager();
+        List<Tipo_documento> ti_do = tdManager.getAllTipoDocumento();
+        List<Tipo_usuario> ti_us = tuManager.getAllTipoUsuario();
         
-        Varios td_empleado = new Varios();
-        Varios tu_empleado = new Varios();
-        
-        if(empleado != null){
-            tu_empleado = tipos_manager.buscarTipoVarios("tipo_usuario", "id_tipoUsua", empleado.getTipo_user());
-            td_empleado = tipos_manager.buscarTipoVarios("tipo_documento", "id_tipoDocu", empleado.getTipo_docu());
-        }
-        
+        //select > option de id_empleados
+        UsuarioManager eManager = new UsuarioManager();
+        List<Usuario> empleados_list = eManager.getAllUsuario();
     %>
     <header class="header_pages">
         <div class="iconUserName">
@@ -45,7 +45,7 @@
                 <i class="fa-solid fa-circle-question fa-2x question_icon" style="color: black;"></i>
             </a>
             <p class ="name_user_show">
-                <%= user != null ? user.getUser() : "Invitado" %>
+                <%= user != null ? user.getNombre_usuario(): "Invitado" %>
             </p>            
         </div>
         <div class="logo_list">
@@ -72,24 +72,44 @@
                 <% } %>
                 <div class="form_display" action="<%= request.getContextPath() %>/EmpleadoServlet" method="post">
                     <label for="id_usuario">Código</label>
-                    <input type="text" name="id_usuario" id="id_usuario" value="<%= empleado != null ? empleado.getCodigo() : "" %>">
+                    <select name="id_usuario" id="id_usuario">
+                        <option value="<%= empleado != null ? empleado.getId_usuario() : "NA"  %>"><%= empleado != null ? empleado.getId_usuario() : "== Nuevo registro ==" %></option>
+                        <%
+                            if(empleado != null){
+                        %>
+                        <option value = "NA">== Nuevo registro ==</option>
+                        <%
+                            }
+                        %>
+                        <%
+                            for (Usuario em : empleados_list){
+                                if (empleado == null || !em.getId_usuario().equals(empleado.getId_usuario())){
+                        %>
+                        <option value="<%= em.getId_usuario() %>">
+                            <%= em.getId_usuario() %>
+                        </option>
+                        <%
+                                }
+                            }
+                        %>
+                    </select>
                     <label for="documento_usuario">Identificación</label>
                     <div id="div_identificacion">
                         <select name="id_tipoDocu" id="id_tipoDocu">
-                            <option value="<%= empleado != null ? empleado.getTipo_docu() : "" %>"><%= empleado != null && td_empleado != null ? td_empleado.getNombre() : "--Seleccione un cliente--" %></option>
+                            <option value="<%= empleado != null ? empleado.getTipoDocumento().getId_tipoDocu(): "NA" %>"><%= empleado != null ? empleado.getTipoDocumento().getNombre_tipo() : "== Seleccione un tipo de Documento ==" %></option>
                             <%
-                                for (Varios td : ti_do){
-                                    if (empleado == null || td.getCodigo() != td_empleado.getCodigo()){
+                                for (Tipo_documento td : ti_do){
+                                    if (empleado == null || td.getId_tipoDocu() != empleado.getTipoDocumento().getId_tipoDocu()){
                             %>
-                            <option value="<%= td.getCodigo() %>">
-                                <%= td.getNombre() %>
+                            <option value="<%= td.getId_tipoDocu() %>">
+                                <%= td.getNombre_tipo()%>
                             </option>
                             <%
                                     }
                                 }
                             %>                            
                         </select>
-                        <input type="text" name="documento_usuario" id="documento_usuario" value="<%= empleado != null ? empleado.getDocumento() : "" %>">
+                        <input type="text" name="documento_usuario" id="documento_usuario" value="<%= empleado != null ? empleado.getDocumento_usuario() : "" %>">
                     </div>
                     <label for="nombres">Nombres</label>
                     <input type="text" name="nombres" id="nombres" value="<%= empleado != null ? empleado.getNombres() : "" %>">
@@ -97,13 +117,13 @@
                     <input type="text" name="apellidos" id="apellidos" value="<%= empleado != null ? empleado.getApellidos() : "" %>">
                     <label for="id_tipoUsua">Tipo de usuario</label>
                     <select name="id_tipoUsua" id="id_tipoUsua">
-                        <option value="<%= empleado != null ? empleado.getTipo_user(): "" %>"><%= empleado != null && tu_empleado != null ? tu_empleado.getNombre() : "--Seleccione un cliente--" %></option>
+                        <option value="<%= empleado != null ? empleado.getTipoUsuario().getId_tipoUsua(): "NA" %>"><%= empleado != null ? empleado.getTipoUsuario().getNombre_tipo() : "== Seleccione un tipo de Usuario ==" %></option>
                             <%
-                                for (Varios tu : ti_us){
-                                    if (empleado == null || tu.getCodigo() != tu_empleado.getCodigo()){
+                                for (Tipo_usuario tu : ti_us){
+                                    if (empleado == null || tu.getId_tipoUsua() != empleado.getTipoUsuario().getId_tipoUsua()){
                             %>
-                            <option value="<%= tu.getCodigo() %>">
-                                <%= tu.getNombre() %>
+                            <option value="<%= tu.getId_tipoUsua() %>">
+                                <%= tu.getNombre_tipo()%>
                             </option>
                             <%
                                     }
@@ -111,13 +131,13 @@
                             %> 
                     </select>                    
                     <label for="telefono_usuario">Telefono</label>
-                    <input type="text" name="telefono_usuario" id="telefono_usuario" value="<%= empleado != null ? empleado.getTelefono(): "" %>">
+                    <input type="text" name="telefono_usuario" id="telefono_usuario" value="<%= empleado != null ? empleado.getTelefono_usuario(): "" %>">
                     <label for="correo_usuario">Correo electronico</label>
-                    <input type="text" name="correo_usuario" id="correo_usuario" value="<%= empleado != null ? empleado.getEmail() : "" %>">
+                    <input type="text" name="correo_usuario" id="correo_usuario" value="<%= empleado != null ? empleado.getCorreo_usuario(): "" %>">
                     <label for="nombre_usuario">Usuario</label>
-                    <input type="text" name="nombre_usuario" id="nombre_usuario" value="<%= empleado != null ? empleado.getUser() : "" %>">
+                    <input type="text" name="nombre_usuario" id="nombre_usuario" value="<%= empleado != null ? empleado.getNombre_usuario(): "" %>">
                     <label for="contrasena_usuario">Contraseña</label>
-                    <input type="text" name="contrasena_usuario" id="contrasena_usuario" value="<%= empleado != null ? empleado.getPassword() : "" %>">
+                    <input type="text" name="contrasena_usuario" id="contrasena_usuario" value="<%= empleado != null ? empleado.getContrasena_usuario(): "" %>">
                 </div>
                 <div>
                     <button type="submit" name="accion" value="buscar">Buscar</button>
@@ -129,5 +149,4 @@
         </div>
     </div>
 </body>
-<!--<script type="module" src="../Js/empleados.js"></script>-->
 </html>

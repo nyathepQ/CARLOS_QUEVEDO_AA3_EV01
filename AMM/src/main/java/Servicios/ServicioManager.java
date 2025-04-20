@@ -16,7 +16,7 @@ public class ServicioManager {
         try (Session session = SessionHibernate.getSessionFactory().openSession()){
             tx = session.beginTransaction(); //iniciar transacción
             
-            session.persist(servicio); //guarda el registro en la base de datos
+            session.merge(servicio); //guarda el registro en la base de datos
             
             tx.commit(); //confirma la transacción
             return true;

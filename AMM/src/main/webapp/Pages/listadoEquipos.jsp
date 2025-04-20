@@ -4,9 +4,8 @@
     Author     : nyath
 --%>
 
-<%@page import="Clases.Usuario"%>
-<%@page import="Servicios.UsuarioManager"%>
-<%@page import="Clases.EquipoTrabajo"%>
+<%@page import="java.util.List"%>
+<%@page import="Clases.Equipo"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,7 +16,7 @@
     </head>
     <body>
         <%
-            EquipoTrabajo[] equipos = (EquipoTrabajo[]) request.getAttribute("equipos");
+            List<Equipo> equipos = (List<Equipo>) request.getAttribute("equipos");
         %>
         <h2>Listado de Equipos</h2>
         
@@ -32,28 +31,14 @@
             
             <%
                 if(equipos != null){
-                    UsuarioManager um = new UsuarioManager();
-                    
-                    for(EquipoTrabajo e: equipos){
-                        Usuario lider = new Usuario();
-                        Usuario miembro1 = new Usuario();
-                        Usuario miembro2 = new Usuario();
-                        if(e.getLider() != null){
-                            lider = um.buscarUsuario(e.getLider(), "");
-                        }
-                        if(e.getMiembro1() != null){
-                            miembro1 = um.buscarUsuario(e.getMiembro1(), "");
-                        }
-                        if(e.getMiembro2() != null){
-                            miembro2 = um.buscarUsuario(e.getMiembro2(), "");
-                        }
+                    for(Equipo e: equipos){                        
             %>
             <tr>
-                <td><%= e.getCodigo() %></td>
+                <td><%= e.getId_equipo() %></td>
                 <td><%= e.getNombre_equipo() %></td>
-                <td><%= lider.getCodigo() != null ? um.UsuarioToString(lider) : "" %></td>
-                <td><%= miembro1.getCodigo() != null ? um.UsuarioToString(miembro1) : "" %></td>
-                <td><%= miembro2.getCodigo() != null ? um.UsuarioToString(miembro2) : "" %></td>
+                <td><%= e.getLider() != null ? e.getUsuariosEquipos().get(0).getUsuario().toString() : "" %></td>
+                <td><%= e.getMiembro1() != null ? e.getUsuariosEquipos().get(1).getUsuario().toString() : "" %></td>
+                <td><%= e.getMiembro2() != null ? e.getUsuariosEquipos().get(2).getUsuario().toString() : "" %></td>
             </tr>
             <%
                 }

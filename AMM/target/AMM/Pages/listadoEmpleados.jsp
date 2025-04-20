@@ -4,8 +4,7 @@
     Author     : nyath
 --%>
 
-<%@page import="Clases.Varios"%>
-<%@page import="Servicios.VariosManager"%>
+<%@page import="java.util.List"%>
 <%@page import="Clases.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -17,14 +16,14 @@
     </head>
     <body>
         <%
-            Usuario[] empleados = (Usuario[]) request.getAttribute("empleados");
+            List<Usuario> empleados = (List<Usuario>) request.getAttribute("empleados");
         %>
         <h2>Listado de Empleados</h2>
         
         <table border="1">
             <tr>
                 <th>ID</th>
-                <th>Tipo de empleado</th>
+                <th>Tipo de usuario</th>
                 <th>Nombre de usuario</th>
                 <th>Contraseña</th>
                 <th>Tipo de documento</th>
@@ -36,24 +35,20 @@
             </tr>
             
             <%
-                if(empleados != null){
-                    VariosManager vr = new VariosManager();
-                    
-                    for(Usuario e: empleados){
-                        Varios tus = vr.buscarTipoVarios("tipo_usuario", "id_tipoUsua", e.getTipo_user());
-                        Varios tdo = vr.buscarTipoVarios("tipo_documento", "id_tipoDocu", e.getTipo_docu());
+                if(empleados != null){                    
+                    for(Usuario e: empleados){                        
             %>
             <tr>
-                <td><%= e.getCodigo() %></td>
-                <td><%= tus.getNombre() %></td>
-                <td><%= e.getUser() %></td>
-                <td><%= e.getPassword() %></td>
-                <td><%= tdo.getNombre() %></td>
-                <td><%= e.getDocumento() %></td>
+                <td><%= e.getId_usuario() %></td>
+                <td><%= e.getTipoUsuario().getNombre_tipo() %></td>
+                <td><%= e.getNombre_usuario()%></td>
+                <td><%= e.getContrasena_usuario() %></td>
+                <td><%= e.getTipoDocumento().getNombre_tipo() %></td>
+                <td><%= e.getDocumento_usuario() %></td>
                 <td><%= e.getNombres() %></td>
                 <td><%= e.getApellidos() %></td>
-                <td><%= e.getTelefono() %></td>
-                <td><%= e.getEmail() %></td>
+                <td><%= e.getTelefono_usuario()%></td>
+                <td><%= e.getCorreo_usuario() %></td>
             </tr>
             <%
                 }

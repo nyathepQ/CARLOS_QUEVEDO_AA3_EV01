@@ -28,8 +28,7 @@ public class ClienteManager {
         }
     }
     
-    public Cliente buscarCliente(int id_cliente) {
-        
+    public Cliente buscarCliente(int id_cliente) {        
         try (Session session = SessionHibernate.getSessionFactory().openSession()){
             return session.get(Cliente.class, id_cliente); //buscar el registro por id
         } catch (Exception e) {

@@ -27,8 +27,7 @@ public class TiDoManager {
         }
     }
     
-    public Tipo_documento buscarTipoDocumento(int id_tipo_documento) {
-        
+    public Tipo_documento buscarTipoDocumento(int id_tipo_documento) {        
         try (Session session = SessionHibernate.getSessionFactory().openSession()){
             return session.get(Tipo_documento.class, id_tipo_documento); //buscar el registro por id
         } catch (Exception e) {

@@ -23,7 +23,7 @@ public class Tipo_limpieza {
     @Column(name = "user_crea")
     private String user_crea;
     
-    @Column(name = "creado_el")
+    @Column(name = "creado_el", insertable = false, updatable = false)
     private Timestamp creado_el;
     
     @Column(name = "user_modifica")
