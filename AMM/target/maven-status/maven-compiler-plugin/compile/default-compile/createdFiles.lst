@@ -7,6 +7,7 @@ controladores\ServicioServlet.class
 controladores\EmpleadoServlet.class
 Clases\Cliente.class
 controladores\EquipoServlet.class
+controladores\Logout.class
 controladores\TiposServlet.class
 Servicios\TiLiManager.class
 Clases\Tipo_usuario.class

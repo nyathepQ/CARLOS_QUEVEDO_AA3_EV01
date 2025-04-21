@@ -111,15 +111,20 @@ public class EmpleadoServlet extends HttpServlet {
                 if (id_str == null || "NA".equals(id_str)) {
                     request.setAttribute("error", "Debe seleccionar un código para eliminar");
                 } else {
-                    boolean eliminado = manager.eliminarUsuario(id_str);
-                    if (eliminado) {
-                        request.setAttribute("mensaje", "Empleado eliminado exitosamente");
+                    Usuario userSess = (Usuario) session.getAttribute("usuario");
+                    if(userSess != null && id_str.equals(userSess.getId_usuario())){
+                        request.setAttribute("error", "No se puede eliminar el usuario de la sesión activa");
                         request.setAttribute("empleado", null); // limpiar formulario
                     } else {
-                        request.setAttribute("error", "No se pudo eliminar el empleado, confirme que no este ligado a ningún equipo");
+                        boolean eliminado = manager.eliminarUsuario(id_str);
+                        if (eliminado) {
+                            request.setAttribute("mensaje", "Empleado eliminado exitosamente");
+                            request.setAttribute("empleado", null); // limpiar formulario
+                        } else {
+                            request.setAttribute("error", "No se pudo eliminar el empleado, confirme que no este ligado a ningún equipo");
+                        }
                     }
                 }
-
             } catch (NumberFormatException e) {
                 request.setAttribute("error", "Código inválido o inexistente");
             }

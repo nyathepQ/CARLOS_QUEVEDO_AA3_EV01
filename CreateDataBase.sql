@@ -48,7 +48,7 @@ CREATE TABLE tipo_limpieza (
   PRIMARY KEY (id_tipoLimp),
   UNIQUE KEY id_tipoLimp (id_tipoLimp),
   UNIQUE KEY nombre_tipo_UNIQUE (nombre_tipo)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO tipo_limpieza (nombre_tipo) VALUES ("Regular"), ("Profunda"), ("Move in/out");
 
@@ -66,7 +66,7 @@ CREATE TABLE cliente (
   modificado_el datetime DEFAULT NULL,
   PRIMARY KEY (id_cliente),
   UNIQUE KEY id_cliente (id_cliente)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE equipo (
   id_equipo int NOT NULL AUTO_INCREMENT,
@@ -78,7 +78,7 @@ CREATE TABLE equipo (
   PRIMARY KEY (id_equipo),
   UNIQUE KEY id_equi (id_equipo),
   UNIQUE KEY nombEqui (nombre_equipo)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE usuario (
   id_usuario varchar(80) NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE usuarios_equipo (
   KEY usuarios_equipo_ibfk_2 (id_usuario),
   CONSTRAINT usuarios_equipo_ibfk_1 FOREIGN KEY (id_equipo) REFERENCES equipo (id_equipo),
   CONSTRAINT usuarios_equipo_ibfk_2 FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE servicio (
   id_servicio int NOT NULL AUTO_INCREMENT,
@@ -139,7 +139,7 @@ CREATE TABLE servicio (
   CONSTRAINT servicio_ibfk_1 FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente),
   CONSTRAINT servicio_ibfk_2 FOREIGN KEY (id_equipo) REFERENCES equipo (id_equipo),
   CONSTRAINT servicio_ibfk_3 FOREIGN KEY (id_tipoLimp) REFERENCES tipo_limpieza (id_tipoLimp)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT IGNORE INTO usuario (
 id_usuario, id_tipoUsua, nombre_usuario, contrasena_usuario, id_tipoDocu, documento_usuario, nombres, apellidos, telefono_usuario, correo_usuario

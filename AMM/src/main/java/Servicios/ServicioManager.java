@@ -3,11 +3,17 @@ package Servicios;
  *
  * @author nyath
  */
+import Clases.Equipo;
 import Clases.Servicio;
+import Clases.Usuario;
 import Utils.SessionHibernate;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class ServicioManager {
     public boolean crearServicio(Servicio servicio){
@@ -86,5 +92,37 @@ public class ServicioManager {
             e.printStackTrace();
             return false; //retornar falso si hay error
         }
+    }
+    
+    public List<Servicio> getServiciosHoyUsuario (String idUsuario) {
+        List<Servicio> servicios = new ArrayList<>();
+        
+        try (Session session = SessionHibernate.getSessionFactory().openSession()){
+            LocalDateTime ahora = LocalDateTime.now();
+            LocalDate fechaObjetivo = ahora.getHour() < 19 ? ahora.toLocalDate() : ahora.plusDays(1).toLocalDate();
+            
+            //Obtener equipos del usuario
+            Query<Equipo> equiposQuery = session.createQuery(
+                "SELECT ue.equipo FROM Usuarios_equipo ue WHERE ue.usuario.id_usuario = :idUsuario",
+                Equipo.class
+            );
+            equiposQuery.setParameter("idUsuario", idUsuario);
+            List<Equipo> equipos = equiposQuery.list();
+            
+            if(!equipos.isEmpty()){
+                Query<Servicio> serviciosQuery = session.createQuery(
+                    "FROM Servicio s WHERE s.equipo IN (:equipos) AND DATE(s.fecha) = :fechaBusqueda",
+                    Servicio.class
+                );
+                serviciosQuery.setParameter("equipos", equipos);
+                serviciosQuery.setParameter("fechaBusqueda", fechaObjetivo);
+                
+                servicios = serviciosQuery.list();
+            }            
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return servicios;
     }
 }

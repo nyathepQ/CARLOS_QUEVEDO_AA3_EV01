@@ -19,7 +19,7 @@
     <%
         Usuario user = (Usuario) session.getAttribute("usuario"); //obtener datos de sesión
         if(user == null){ //si no hay sesión iniciada regresar al index
-            response.sendRedirect("../index.jsp");
+            response.sendRedirect("../index.jsp?mensaje=Sesión+Expirada");
             return;
         }
     %>
@@ -28,19 +28,29 @@
             <a href="https://wa.me/573212300716" target="_blank">
                 <i class="fa-solid fa-circle-question fa-2x question_icon" style="color: black;"></i>
             </a>
-            <p class ="name_user_show">
-                <%= user != null ? user.getNombre_usuario(): "Invitado" %>
+            <p class="name_user_show" onclick="window.location.href='<%= request.getContextPath() %>/Logout'" style="cursor: pointer;">
+                <%= user != null ? user.getNombre_usuario() + " (Cerrar sesión)" : "Invitado" %>
             </p>            
         </div>
         <div class="logo_list">
             <img src="<%= request.getContextPath() %>/Img/Logo.jpeg" alt="Logo ALF" class="logo_pages">
             <div class="list_pages">
                 <ul>
+                    <%
+                        if (user.getTipoUsuario().getId_tipoUsua() != 3){
+                    %>
                     <li><a href="<%= request.getContextPath() %>/Pages/agenda.jsp">Agenda</a></li>
                     <li><a href="<%= request.getContextPath() %>/Pages/empleados.jsp">Empleados</a></li>
                     <li><a href="<%= request.getContextPath() %>/Pages/equipos.jsp">Equipo de trabajo</a></li>
                     <li><a href="<%= request.getContextPath() %>/Pages/clientes.jsp">Clientes</a></li>
                     <li><a href="<%= request.getContextPath() %>/Pages/valores.jsp">Varios</a></li>
+                    <%
+                        } else {
+                    %>
+                    <li><a href="<%= request.getContextPath() %>/Pages/listaServUs.jsp">Lista de servicios de equipo</a></li>
+                    <%
+                        }
+                    %>
                 </ul>            
             </div>
         </div>        

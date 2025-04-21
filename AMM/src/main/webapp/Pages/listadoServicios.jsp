@@ -54,6 +54,6 @@
                 }
             }
             %>
-        </table>        
+        </table>
     </body>
 </html>

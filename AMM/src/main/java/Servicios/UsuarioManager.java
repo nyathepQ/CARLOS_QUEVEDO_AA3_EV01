@@ -7,6 +7,7 @@ import Clases.Tipo_documento;
 import Clases.Tipo_usuario;
 import Clases.Usuario;
 import Utils.SessionHibernate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

@@ -62,10 +62,10 @@
         <div>            
             <form class="form_pages" action="<%= request.getContextPath() %>/TiposServlet" method="post">
                 <% if (request.getAttribute("error_docu") != null) { %>
-                    <p style="color:darkblue;"><%= request.getAttribute("error_docu") %></p>
+                    <p style="color:darkred;"><%= request.getAttribute("error_docu") %></p>
                 <% } %>
                 <% if (request.getAttribute("mensaje_docu") != null) { %>
-                    <p style="color:grey;"><%= request.getAttribute("mensaje_docu") %></p>
+                    <p style="color:black;"><%= request.getAttribute("mensaje_docu") %></p>
                 <% } %>
                 <h2>Tipo de documento</h2>
                 <div class="form_display">

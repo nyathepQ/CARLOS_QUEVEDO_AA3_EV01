@@ -24,6 +24,26 @@ import java.util.List;
  * @author nyath
  */
 public class ServicioServlet extends HttpServlet {
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        
+        if(session == null) { // Si no existe sesión regresar al login
+            response.sendRedirect("../index.jsp?error=Sesion+expirada");
+            return;
+        }
+        
+        Usuario us = (Usuario) session.getAttribute("usuario");
+        ServicioManager manager = new ServicioManager();
+        
+        //Llamar al servicio para objtener servicios asignados.
+        List<Servicio> servicios = manager.getServiciosHoyUsuario(us.getId_usuario());
+        
+        request.setAttribute("servicios", servicios);
+        request.getRequestDispatcher("Pages/listaServUs.jsp").forward(request, response);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

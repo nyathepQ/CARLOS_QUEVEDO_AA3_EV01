@@ -22,7 +22,7 @@
     <%
         Usuario user = (Usuario) session.getAttribute("usuario"); //obtener datos de sesión
         Cliente cliente = (Cliente) request.getAttribute("cliente");
-        if(user == null){ //si no hay sesión iniciada regresar al index
+        if(user == null || user.getTipoUsuario().getId_tipoUsua() == 3){ //si no hay sesión iniciada regresar al index
             response.sendRedirect("../index.jsp");
             return;
         }
@@ -58,10 +58,10 @@
         <div>
             <form class="form_pages" action="<%= request.getContextPath() %>/ClienteServlet" method="post">
                 <% if (request.getAttribute("error") != null) { %>
-                    <p style="color:darkblue;"><%= request.getAttribute("error") %></p>
+                    <p style="color:darkred;"><%= request.getAttribute("error") %></p>
                 <% } %>
                 <% if (request.getAttribute("mensaje") != null) { %>
-                    <p style="color:grey;"><%= request.getAttribute("mensaje") %></p>
+                    <p style="color:black;"><%= request.getAttribute("mensaje") %></p>
                 <% } %>
                 <div class="form_display">  
                     <label for="id_cliente">Código</label>

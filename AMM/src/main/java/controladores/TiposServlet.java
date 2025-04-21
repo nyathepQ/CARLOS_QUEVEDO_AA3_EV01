@@ -42,7 +42,6 @@ public class TiposServlet extends HttpServlet {
             request.getRequestDispatcher("Pages/listadoVarios.jsp").forward(request, response);
         }        
     }
-
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

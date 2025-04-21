@@ -25,7 +25,7 @@
     <%
         Usuario user = (Usuario) session.getAttribute("usuario"); //obtener datos de sesión
         Usuario empleado = (Usuario) request.getAttribute("empleado"); //valor de empleado cambia en cada request
-        if(user == null){ //si no hay sesión iniciada regresar al index
+        if(user == null || user.getTipoUsuario().getId_tipoUsua() == 3){ //si no hay sesión iniciada regresar al index
             response.sendRedirect("../index.jsp");
             return;
         }
@@ -65,10 +65,10 @@
         <div>
             <form class="form_pages" action="<%= request.getContextPath() %>/EmpleadoServlet" method="post">  
                 <% if (request.getAttribute("error") != null) { %>
-                    <p style="color:darkblue;"><%= request.getAttribute("error") %></p>
+                    <p style="color:darkred;"><%= request.getAttribute("error") %></p>
                 <% } %>
                 <% if (request.getAttribute("mensaje") != null) { %>
-                    <p style="color:grey;"><%= request.getAttribute("mensaje") %></p>
+                    <p style="color:black;"><%= request.getAttribute("mensaje") %></p>
                 <% } %>
                 <div class="form_display" action="<%= request.getContextPath() %>/EmpleadoServlet" method="post">
                     <label for="id_usuario">Código</label>
@@ -83,7 +83,7 @@
                         %>
                         <%
                             for (Usuario em : empleados_list){
-                                if (empleado == null || !em.getId_usuario().equals(empleado.getId_usuario())){
+                                if (!"NA".equals(em.getId_usuario()) && (empleado == null || !em.getId_usuario().equals(empleado.getId_usuario()))){
                         %>
                         <option value="<%= em.getId_usuario() %>">
                             <%= em.getId_usuario() %>

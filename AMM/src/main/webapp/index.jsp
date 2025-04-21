@@ -30,8 +30,17 @@
                 <input type="password" name="pass" id="pass" placeholder="Contraseña" required>
                 
                 <button type="submit">Ingresar</button>
-                <% if (request.getAttribute("error") != null) { %>
-                <p style="color:darkblue;"><%= request.getAttribute("error") %></p>
+                <%
+                String error = request.getAttribute("error") != null 
+                   ? (String) request.getAttribute("error") 
+                   : request.getParameter("error");
+                String mensaje = request.getParameter("mensaje");
+                %>
+                <% if (error != null) { %>
+                <p style="color:darkred;"><%= error %></p>
+                <% } %>
+                <% if (mensaje != null) { %>
+                <p style="color:black;"><%= mensaje %></p>
                 <% } %>
             </form>
         </div>
