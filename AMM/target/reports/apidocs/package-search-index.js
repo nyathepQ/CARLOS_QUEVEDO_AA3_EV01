@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"Clases"},{"l":"com.mycompany.amm"},{"l":"com.mycompany.amm.resources"},{"l":"controladores"},{"l":"Servicios"},{"l":"Utils"}];updateSearchResults();

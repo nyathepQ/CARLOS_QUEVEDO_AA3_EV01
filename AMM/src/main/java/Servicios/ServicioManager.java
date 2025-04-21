@@ -3,14 +3,13 @@ package Servicios;
  *
  * @author nyath
  */
-import Clases.Equipo;
 import Clases.Servicio;
-import Clases.Usuario;
 import Utils.SessionHibernate;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -100,22 +99,23 @@ public class ServicioManager {
         try (Session session = SessionHibernate.getSessionFactory().openSession()){
             LocalDateTime ahora = LocalDateTime.now();
             LocalDate fechaObjetivo = ahora.getHour() < 19 ? ahora.toLocalDate() : ahora.plusDays(1).toLocalDate();
+            java.sql.Date fechaBusqueda = java.sql.Date.valueOf(fechaObjetivo);
             
             //Obtener equipos del usuario
-            Query<Equipo> equiposQuery = session.createQuery(
-                "SELECT ue.equipo FROM Usuarios_equipo ue WHERE ue.usuario.id_usuario = :idUsuario",
-                Equipo.class
+            Query<Integer> equiposIdQuery = session.createNativeQuery(
+                "SELECT id_equipo FROM usuarios_equipo WHERE id_usuario = :idUsuario",
+                Integer.class
             );
-            equiposQuery.setParameter("idUsuario", idUsuario);
-            List<Equipo> equipos = equiposQuery.list();
+            equiposIdQuery.setParameter("idUsuario", idUsuario);
+            List<Integer> equiposIds = equiposIdQuery.list();
             
-            if(!equipos.isEmpty()){
-                Query<Servicio> serviciosQuery = session.createQuery(
-                    "FROM Servicio s WHERE s.equipo IN (:equipos) AND DATE(s.fecha) = :fechaBusqueda",
+            if(!equiposIds.isEmpty()){
+                Query<Servicio> serviciosQuery = session.createNativeQuery(
+                    "SELECT * FROM Servicio WHERE id_equipo IN (:equipos) AND fecha = :fechaBusqueda",
                     Servicio.class
                 );
-                serviciosQuery.setParameter("equipos", equipos);
-                serviciosQuery.setParameter("fechaBusqueda", fechaObjetivo);
+                serviciosQuery.setParameter("equipos", equiposIds);
+                serviciosQuery.setParameter("fechaBusqueda", fechaBusqueda);
                 
                 servicios = serviciosQuery.list();
             }            

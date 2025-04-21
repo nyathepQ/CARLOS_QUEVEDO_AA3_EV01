@@ -1,0 +1,83 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+-classpath
+'C:/Users/nyath/.m2/repository/jakarta/platform/jakarta.jakartaee-api/11.0.0-M1/jakarta.jakartaee-api-11.0.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/platform/jakarta.jakartaee-web-api/11.0.0-M1/jakarta.jakartaee-web-api-11.0.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/servlet/jakarta.servlet-api/6.1.0-M1/jakarta.servlet-api-6.1.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/servlet/jsp/jakarta.servlet.jsp-api/4.0.0-M1/jakarta.servlet.jsp-api-4.0.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/data/jakarta-data-api/1.0.0-M1/jakarta-data-api-1.0.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/enterprise/jakarta.enterprise.cdi-el-api/4.1.0-M1/jakarta.enterprise.cdi-el-api-4.1.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/el/jakarta.el-api/6.0.0-M1/jakarta.el-api-6.0.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/3.0.0/jakarta.servlet.jsp.jstl-api-3.0.0.jar;C:/Users/nyath/.m2/repository/jakarta/faces/jakarta.faces-api/4.1.0-M1/jakarta.faces-api-4.1.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/websocket/jakarta.websocket-api/2.2.0-M1/jakarta.websocket-api-2.2.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/websocket/jakarta.websocket-client-api/2.2.0-M1/jakarta.websocket-client-api-2.2.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/ejb/jakarta.ejb-api/4.0.1/jakarta.ejb-api-4.0.1.jar;C:/Users/nyath/.m2/repository/jakarta/validation/jakarta.validation-api/3.1.0-M1/jakarta.validation-api-3.1.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/authentication/jakarta.authentication-api/3.1.0-M1/jakarta.authentication-api-3.1.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/security/enterprise/jakarta.security.enterprise-api/4.0.0-M1/jakarta.security.enterprise-api-4.0.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/enterprise/concurrent/jakarta.enterprise.concurrent-api/3.1.0-M1/jakarta.enterprise.concurrent-api-3.1.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/platform/jakarta.jakartaee-core-api/11.0.0-M1/jakarta.jakartaee-core-api-11.0.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/ws/rs/jakarta.ws.rs-api/3.1.0/jakarta.ws.rs-api-3.1.0.jar;C:/Users/nyath/.m2/repository/jakarta/json/jakarta.json-api/2.1.0/jakarta.json-api-2.1.0.jar;C:/Users/nyath/.m2/repository/jakarta/json/bind/jakarta.json.bind-api/3.0.0/jakarta.json.bind-api-3.0.0.jar;C:/Users/nyath/.m2/repository/jakarta/annotation/jakarta.annotation-api/3.0.0-M1/jakarta.annotation-api-3.0.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/interceptor/jakarta.interceptor-api/2.2.0-M1/jakarta.interceptor-api-2.2.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/enterprise/jakarta.enterprise.cdi-api/4.1.0-M1/jakarta.enterprise.cdi-api-4.1.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/enterprise/jakarta.enterprise.lang-model/4.1.0-M1/jakarta.enterprise.lang-model-4.1.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/jms/jakarta.jms-api/3.1.0/jakarta.jms-api-3.1.0.jar;C:/Users/nyath/.m2/repository/jakarta/mail/jakarta.mail-api/2.1.2/jakarta.mail-api-2.1.2.jar;C:/Users/nyath/.m2/repository/jakarta/resource/jakarta.resource-api/2.1.0/jakarta.resource-api-2.1.0.jar;C:/Users/nyath/.m2/repository/jakarta/authorization/jakarta.authorization-api/3.0.0-M1/jakarta.authorization-api-3.0.0-M1.jar;C:/Users/nyath/.m2/repository/jakarta/batch/jakarta.batch-api/2.1.1/jakarta.batch-api-2.1.1.jar;C:/Users/nyath/.m2/repository/org/hibernate/orm/hibernate-core/6.6.13.Final/hibernate-core-6.6.13.Final.jar;C:/Users/nyath/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar;C:/Users/nyath/.m2/repository/com/mysql/mysql-connector-j/9.2.0/mysql-connector-j-9.2.0.jar;C:/Users/nyath/.m2/repository/com/google/protobuf/protobuf-java/4.29.0/protobuf-java-4.29.0.jar;C:/Users/nyath/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'C:/Users/nyath/Documents/Git proyects/CARLOS_QUEVEDO_AA3_EV01/AMM/src/main/java;C:/Users/nyath/Documents/Git proyects/CARLOS_QUEVEDO_AA3_EV01/AMM/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/nyath/Documents/Git proyects/CARLOS_QUEVEDO_AA3_EV01/AMM/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'AMM-1.0-SNAPSHOT 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'AMM-1.0-SNAPSHOT 1.0-SNAPSHOT API'
+Clases
+com.mycompany.amm
+com.mycompany.amm.resources
+controladores
+Servicios
+Utils
+C:\Users\nyath\.m2\repository\jakarta\platform\jakarta.jakartaee-api\11.0.0-M1\jakarta.jakartaee-api-11.0.0-M1.jar = 1745022083248
+C:\Users\nyath\.m2\repository\jakarta\platform\jakarta.jakartaee-web-api\11.0.0-M1\jakarta.jakartaee-web-api-11.0.0-M1.jar = 1745022083413
+C:\Users\nyath\.m2\repository\jakarta\servlet\jakarta.servlet-api\6.1.0-M1\jakarta.servlet-api-6.1.0-M1.jar = 1745022083701
+C:\Users\nyath\.m2\repository\jakarta\servlet\jsp\jakarta.servlet.jsp-api\4.0.0-M1\jakarta.servlet.jsp-api-4.0.0-M1.jar = 1745022083457
+C:\Users\nyath\.m2\repository\jakarta\data\jakarta-data-api\1.0.0-M1\jakarta-data-api-1.0.0-M1.jar = 1745022083805
+C:\Users\nyath\.m2\repository\jakarta\enterprise\jakarta.enterprise.cdi-el-api\4.1.0-M1\jakarta.enterprise.cdi-el-api-4.1.0-M1.jar = 1745022083487
+C:\Users\nyath\.m2\repository\jakarta\el\jakarta.el-api\6.0.0-M1\jakarta.el-api-6.0.0-M1.jar = 1745022083539
+C:\Users\nyath\.m2\repository\jakarta\servlet\jsp\jstl\jakarta.servlet.jsp.jstl-api\3.0.0\jakarta.servlet.jsp.jstl-api-3.0.0.jar = 1745022083751
+C:\Users\nyath\.m2\repository\jakarta\faces\jakarta.faces-api\4.1.0-M1\jakarta.faces-api-4.1.0-M1.jar = 1745022083772
+C:\Users\nyath\.m2\repository\jakarta\websocket\jakarta.websocket-api\2.2.0-M1\jakarta.websocket-api-2.2.0-M1.jar = 1745022083751
+C:\Users\nyath\.m2\repository\jakarta\websocket\jakarta.websocket-client-api\2.2.0-M1\jakarta.websocket-client-api-2.2.0-M1.jar = 1745022084158
+C:\Users\nyath\.m2\repository\jakarta\ejb\jakarta.ejb-api\4.0.1\jakarta.ejb-api-4.0.1.jar = 1745022083835
+C:\Users\nyath\.m2\repository\jakarta\validation\jakarta.validation-api\3.1.0-M1\jakarta.validation-api-3.1.0-M1.jar = 1745022084002
+C:\Users\nyath\.m2\repository\jakarta\authentication\jakarta.authentication-api\3.1.0-M1\jakarta.authentication-api-3.1.0-M1.jar = 1745022084359
+C:\Users\nyath\.m2\repository\jakarta\security\enterprise\jakarta.security.enterprise-api\4.0.0-M1\jakarta.security.enterprise-api-4.0.0-M1.jar = 1745022084004
+C:\Users\nyath\.m2\repository\jakarta\enterprise\concurrent\jakarta.enterprise.concurrent-api\3.1.0-M1\jakarta.enterprise.concurrent-api-3.1.0-M1.jar = 1745022084482
+C:\Users\nyath\.m2\repository\jakarta\platform\jakarta.jakartaee-core-api\11.0.0-M1\jakarta.jakartaee-core-api-11.0.0-M1.jar = 1745022084187
+C:\Users\nyath\.m2\repository\jakarta\ws\rs\jakarta.ws.rs-api\3.1.0\jakarta.ws.rs-api-3.1.0.jar = 1745022084177
+C:\Users\nyath\.m2\repository\jakarta\json\jakarta.json-api\2.1.0\jakarta.json-api-2.1.0.jar = 1745022084550
+C:\Users\nyath\.m2\repository\jakarta\json\bind\jakarta.json.bind-api\3.0.0\jakarta.json.bind-api-3.0.0.jar = 1745022084504
+C:\Users\nyath\.m2\repository\jakarta\annotation\jakarta.annotation-api\3.0.0-M1\jakarta.annotation-api-3.0.0-M1.jar = 1745022084441
+C:\Users\nyath\.m2\repository\jakarta\interceptor\jakarta.interceptor-api\2.2.0-M1\jakarta.interceptor-api-2.2.0-M1.jar = 1745022084601
+C:\Users\nyath\.m2\repository\jakarta\enterprise\jakarta.enterprise.cdi-api\4.1.0-M1\jakarta.enterprise.cdi-api-4.1.0-M1.jar = 1745022084542
+C:\Users\nyath\.m2\repository\jakarta\enterprise\jakarta.enterprise.lang-model\4.1.0-M1\jakarta.enterprise.lang-model-4.1.0-M1.jar = 1745022084866
+C:\Users\nyath\.m2\repository\jakarta\jms\jakarta.jms-api\3.1.0\jakarta.jms-api-3.1.0.jar = 1745022084656
+C:\Users\nyath\.m2\repository\jakarta\mail\jakarta.mail-api\2.1.2\jakarta.mail-api-2.1.2.jar = 1745022084704
+C:\Users\nyath\.m2\repository\jakarta\resource\jakarta.resource-api\2.1.0\jakarta.resource-api-2.1.0.jar = 1745022084710
+C:\Users\nyath\.m2\repository\jakarta\authorization\jakarta.authorization-api\3.0.0-M1\jakarta.authorization-api-3.0.0-M1.jar = 1745022084971
+C:\Users\nyath\.m2\repository\jakarta\batch\jakarta.batch-api\2.1.1\jakarta.batch-api-2.1.1.jar = 1745022085186
+C:\Users\nyath\.m2\repository\org\hibernate\orm\hibernate-core\6.6.13.Final\hibernate-core-6.6.13.Final.jar = 1745023005963
+C:\Users\nyath\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar = 1745022084015
+C:\Users\nyath\.m2\repository\com\mysql\mysql-connector-j\9.2.0\mysql-connector-j-9.2.0.jar = 1745023006779
+C:\Users\nyath\.m2\repository\com\google\protobuf\protobuf-java\4.29.0\protobuf-java-4.29.0.jar = 1745023006681
+C:\Users\nyath\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar = 1745023006403
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\src\main\java = 1745022178645
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\generated-sources\annotations = 1745195966693
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\allclasses-index.html = 1745196222182
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\allpackages-index.html = 1745196222184
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\element-list = 1745196222004
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\help-doc.html = 1745196222218
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\index-all.html = 1745196222213
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\index.html = 1745196222165
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\member-search-index.js = 1745196222189
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\module-search-index.js = 1745196222185
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\overview-summary.html = 1745196222216
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\overview-tree.html = 1745196222161
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\package-search-index.js = 1745196222186
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\search.html = 1745196222214
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\serialized-form.html = 1745196222051
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\tag-search-index.js = 1745196222191
+C:\Users\nyath\Documents\Git proyects\CARLOS_QUEVEDO_AA3_EV01\AMM\target\reports\apidocs\type-search-index.js = 1745196222188

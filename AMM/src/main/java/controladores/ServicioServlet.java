@@ -1,6 +1,5 @@
 package controladores;
 
-import Clases.Cliente;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -18,6 +17,7 @@ import Utils.TimeUtils;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalTime;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -40,7 +40,7 @@ public class ServicioServlet extends HttpServlet {
         
         //Llamar al servicio para objtener servicios asignados.
         List<Servicio> servicios = manager.getServiciosHoyUsuario(us.getId_usuario());
-        
+                
         request.setAttribute("servicios", servicios);
         request.getRequestDispatcher("Pages/listaServUs.jsp").forward(request, response);
     }

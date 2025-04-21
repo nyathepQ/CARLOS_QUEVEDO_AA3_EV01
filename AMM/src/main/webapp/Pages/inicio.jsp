@@ -47,7 +47,7 @@
                     <%
                         } else {
                     %>
-                    <li><a href="<%= request.getContextPath() %>/Pages/listaServUs.jsp">Lista de servicios de equipo</a></li>
+                    <li><a href="<%= request.getContextPath() %>/ServicioServlet">Lista de servicios de equipo</a></li>
                     <%
                         }
                     %>
