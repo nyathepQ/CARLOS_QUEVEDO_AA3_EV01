@@ -12,6 +12,7 @@ import Utils.SessionHibernate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.hibernate.query.Query;
 
 public class EquipoManager {
     
@@ -217,5 +218,20 @@ public class EquipoManager {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    public Equipo getLast(){
+        Equipo ultimo = null;
+        
+        try (Session session = SessionHibernate.getSessionFactory().openSession()) {
+            Query<Equipo> query = session.createQuery(
+                "FROM Equipo ORDER BY creado_el DESC", Equipo.class);
+            query.setMaxResults(1);
+            ultimo = query.uniqueResult();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return ultimo;
     }
 }

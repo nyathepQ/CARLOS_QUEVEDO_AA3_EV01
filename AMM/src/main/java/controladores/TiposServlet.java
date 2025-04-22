@@ -93,7 +93,7 @@ public class TiposServlet extends HttpServlet {
                             request.setAttribute("error_docu", "No se pudo crear el tipo de documento");
                         } else { //si fue creado
                             request.setAttribute("mensaje_docu", "Tipo de documento creado exitosamente");
-                            request.setAttribute("tipo_docu", null);
+                            request.setAttribute("tipo_docu", tdManager.getLast()); //Último registro al formulario
                         }
                     } else {
                         TimeUtils timeU = new TimeUtils();
@@ -184,7 +184,7 @@ public class TiposServlet extends HttpServlet {
                             request.setAttribute("error_limp", "No se pudo crear el tipo de limpieza");
                         } else {
                             request.setAttribute("mensaje_limp", "Tipo de limpieza creado exitosamente");
-                            request.setAttribute("tipo_limp", null);
+                            request.setAttribute("tipo_limp", tlManager.getLast()); //Último registro al formulario
                         }
                     } else {
                         TimeUtils timeU = new TimeUtils();

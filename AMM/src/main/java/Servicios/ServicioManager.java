@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -124,5 +123,20 @@ public class ServicioManager {
         }
         
         return servicios;
+    }
+    
+    public Servicio getLast(){
+        Servicio ultimo = null;
+        
+        try (Session session = SessionHibernate.getSessionFactory().openSession()) {
+            Query<Servicio> query = session.createQuery(
+                "FROM Servicio ORDER BY creado_el DESC", Servicio.class);
+            query.setMaxResults(1);
+            ultimo = query.uniqueResult();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return ultimo;
     }
 }

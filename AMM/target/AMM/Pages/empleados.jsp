@@ -133,7 +133,7 @@
                     <label for="telefono_usuario">Telefono</label>
                     <input type="text" name="telefono_usuario" id="telefono_usuario" value="<%= empleado != null ? empleado.getTelefono_usuario(): "" %>">
                     <label for="correo_usuario">Correo electronico</label>
-                    <input type="text" name="correo_usuario" id="correo_usuario" value="<%= empleado != null ? empleado.getCorreo_usuario(): "" %>">
+                    <input type="email" name="correo_usuario" id="correo_usuario" value="<%= empleado != null ? empleado.getCorreo_usuario(): "" %>">
                     <label for="nombre_usuario">Usuario</label>
                     <input type="text" name="nombre_usuario" id="nombre_usuario" value="<%= empleado != null ? empleado.getNombre_usuario(): "" %>">
                     <label for="contrasena_usuario">Contraseña</label>

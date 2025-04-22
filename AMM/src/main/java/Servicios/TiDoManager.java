@@ -8,6 +8,7 @@ import Utils.SessionHibernate;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class TiDoManager {
     public boolean crearTipoDocumento(Tipo_documento tipo_documento){
@@ -85,5 +86,20 @@ public class TiDoManager {
             e.printStackTrace();
             return false; //retornar falso si hay error
         }
+    }
+    
+    public Tipo_documento getLast(){
+        Tipo_documento ultimo = null;
+        
+        try (Session session = SessionHibernate.getSessionFactory().openSession()) {
+            Query<Tipo_documento> query = session.createQuery(
+                "FROM Tipo_documento ORDER BY creado_el DESC", Tipo_documento.class);
+            query.setMaxResults(1);
+            ultimo = query.uniqueResult();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return ultimo;
     }
 }

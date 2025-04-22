@@ -5,6 +5,7 @@ import Utils.SessionHibernate;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -89,5 +90,20 @@ public class TiLiManager {
             e.printStackTrace();
             return false; //retornar falso si hay error
         }
+    }
+    
+    public Tipo_limpieza getLast(){
+        Tipo_limpieza ultimo = null;
+        
+        try (Session session = SessionHibernate.getSessionFactory().openSession()) {
+            Query<Tipo_limpieza> query = session.createQuery(
+                "FROM Tipo_limpieza ORDER BY creado_el DESC", Tipo_limpieza.class);
+            query.setMaxResults(1);
+            ultimo = query.uniqueResult();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return ultimo;
     }
 }

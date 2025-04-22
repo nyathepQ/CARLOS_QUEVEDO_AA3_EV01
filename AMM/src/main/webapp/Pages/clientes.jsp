@@ -95,7 +95,7 @@
                     <label for="telefono_cliente">Telefono</label>
                     <input type="tel" name="telefono_cliente" id="telefono_cliente" value="<%= cliente != null ? cliente.getTelefono_cliente() : "" %>">
                     <label for="correo_cliente">Correo</label>
-                    <input type="text" name="correo_cliente" id="correo_cliente" value="<%= cliente != null ? cliente.getCorreo_cliente(): "" %>">
+                    <input type="email" name="correo_cliente" id="correo_cliente" value="<%= cliente != null ? cliente.getCorreo_cliente(): "" %>">
                     <label for="observacion_cliente">Observaciones</label>
                     <input type="text" name="observacion_cliente" id="observacion_cliente" value="<%= cliente != null ? cliente.getObservacion_cliente() : "" %>">
                 </div>

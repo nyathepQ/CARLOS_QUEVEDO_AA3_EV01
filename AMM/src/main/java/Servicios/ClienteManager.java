@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import Utils.SessionHibernate;
+import org.hibernate.query.Query;
 
 public class ClienteManager {
     
@@ -86,5 +87,20 @@ public class ClienteManager {
             e.printStackTrace();
             return false; //retornar falso si hay error
         }
+    }
+    
+    public Cliente getLast(){
+        Cliente ultimo = null;
+        
+        try (Session session = SessionHibernate.getSessionFactory().openSession()) {
+            Query<Cliente> query = session.createQuery(
+                "FROM Cliente ORDER BY creado_el DESC", Cliente.class);
+            query.setMaxResults(1);
+            ultimo = query.uniqueResult();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return ultimo;
     }
 }

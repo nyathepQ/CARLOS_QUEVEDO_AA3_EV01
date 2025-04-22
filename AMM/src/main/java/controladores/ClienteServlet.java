@@ -72,7 +72,7 @@ public class ClienteServlet extends HttpServlet {
                         boolean creation = manager.crearCliente(cliente);
                         if (creation){ //si el registro fue creado
                             request.setAttribute("mensaje", "Cliente creado exitosamente");
-                            request.setAttribute("cliente", null); //dejar vacio el formulario
+                            request.setAttribute("cliente", manager.getLast()); //ultimo registro en formulario
                         } else {
                             request.setAttribute("error", "No se pudo crear el cliente");
                         }

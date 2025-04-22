@@ -76,7 +76,7 @@ public class EmpleadoServlet extends HttpServlet {
                             request.setAttribute("error", "No se pudo crear el empleado");
                         } else {
                             request.setAttribute("mensaje", "Empleado creado exitosamente");
-                            request.setAttribute("empleado", null);
+                            request.setAttribute("empleado", manager.getLast()); //ultimo registro al formulario
                         }
                     } else { //Modificar
                         TimeUtils timeU = new TimeUtils();

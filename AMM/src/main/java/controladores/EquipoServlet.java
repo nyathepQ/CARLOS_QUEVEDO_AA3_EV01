@@ -70,7 +70,7 @@ public class EquipoServlet extends HttpServlet {
                         boolean creation = manager.crearEquipo(equipo);
                         if (creation){
                             request.setAttribute("mensaje", "Equipo creado exitosamente");
-                            request.setAttribute("equipo", null);
+                            request.setAttribute("equipo", manager.getLast()); //Ultimo registro al formulario
                         } else {
                             request.setAttribute("error", "No se pudo crear el equipo");
                         }

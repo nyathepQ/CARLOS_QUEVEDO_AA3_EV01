@@ -7,7 +7,6 @@ import Clases.Tipo_documento;
 import Clases.Tipo_usuario;
 import Clases.Usuario;
 import Utils.SessionHibernate;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -136,5 +135,20 @@ public class UsuarioManager {
         String numStr = String.format("%06d", random);
         
         return tu + "-" + nom + ape + numStr;
+    }
+    
+    public Usuario getLast(){
+        Usuario ultimo = null;
+        
+        try (Session session = SessionHibernate.getSessionFactory().openSession()) {
+            Query<Usuario> query = session.createQuery(
+                "FROM Usuario ORDER BY creado_el DESC", Usuario.class);
+            query.setMaxResults(1);
+            ultimo = query.uniqueResult();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        return ultimo;
     }
 }

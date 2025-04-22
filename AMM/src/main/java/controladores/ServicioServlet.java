@@ -17,7 +17,6 @@ import Utils.TimeUtils;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalTime;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -103,6 +102,10 @@ public class ServicioServlet extends HttpServlet {
                     servicio.setTiempo_estimado(Time.valueOf(hrEs));
                     servicio.setTiempo_finalizacion(timeU.calcHoraFinalizacion(servicio.getHora(), servicio.getTiempo_estimado()));
                     servicio.setPrecio(Integer.parseInt(request.getParameter("precio")));
+                    if(servicio.getPrecio() < 0){
+                        request.setAttribute("mensaje", "El valor a pagar no puede ser negativo");
+                        request.getRequestDispatcher("Pages/agenda.jsp").forward(request, response);
+                    }
                     servicio.setObservacion(request.getParameter("observacion"));
                     
                     if(id == 0) { // Creación
@@ -112,7 +115,7 @@ public class ServicioServlet extends HttpServlet {
                             request.setAttribute("error", "No se pudo crear el servicio");
                         } else {
                             request.setAttribute("mensaje", "Servicio creado exitosamente");
-                            request.setAttribute("servicio", null);
+                            request.setAttribute("servicio", manager.getLast()); //Ultimo registro al formulario
                         }
                     } else { // Modificación
                         servicio.setId_servicio(id);
